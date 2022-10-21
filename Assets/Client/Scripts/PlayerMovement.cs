@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
 
     [SerializeField] private float runSpeed;
+    [SerializeField] private Animator animator;
 
     private PlayerController controller;
 
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        animator.SetFloat("HorizontalMove", Mathf.Abs(horizontalMove));
         if(Input.GetButtonDown("Jump"))
         {
             jump = true;
@@ -31,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
         {
             crouch = false;
         }
-
     }
     void FixedUpdate()
     {
