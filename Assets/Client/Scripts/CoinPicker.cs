@@ -1,17 +1,14 @@
-using TMPro;
 using UnityEngine;
 
-public class Coins : MonoBehaviour
+public class CoinPicker : MonoBehaviour
 {
-    [SerializeField] private TMP_Text coinsText;
-    private int coins = 0;
-
+    [SerializeField] private GameManager gameManager;
+    
     private void OnTriggerEnter2D(Collider2D coinCollider)
     {
         if (coinCollider.gameObject.CompareTag("Coin"))
         {
-            ++coins;
-            coinsText.text = coins.ToString();
+            gameManager.AddCoins(1);
             Destroy(coinCollider.gameObject);
         }
     }

@@ -4,19 +4,29 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
+    
     [SerializeField] private TMP_Text timerText;
-    private DateTime time;
+    private DateTime startTime;
 
     void Start()
     {
-        time = DateTime.Now;
+        startTime = DateTime.Now;
     }
     
+    public class Score
+    {
+        public TimeSpan time;
+        public DateTime date;
+    }
+
     private void OnTriggerEnter2D(Collider2D coinCollider)
     {
         if (coinCollider.gameObject.tag == "Coin")
         {
-            timerText.text = DateTime.Now.Subtract(time).ToString(@"hh\:mm\:ss");
+            TimeSpan time = DateTime.Now.Subtract(startTime);
+            timerText.text = time.ToString(@"dd") + "d " + time.ToString(@"hh\:mm\:ss");
+            gameManager.AddScore(new Score() {time = time, date = DateTime.Now});
         }
     }
 }
