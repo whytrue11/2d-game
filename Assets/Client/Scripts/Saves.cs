@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Saves : MonoBehaviour
 {
-    private String path;
+    private static String path;
     [SerializeField] private GameManager gameManager;
     
     private void Awake()
@@ -19,7 +19,6 @@ public class Saves : MonoBehaviour
     {
         Save();
     }
-    
 
     private class SaveData
     {
@@ -31,8 +30,8 @@ public class Saves : MonoBehaviour
     {
         SaveData data = new SaveData()
         {
-            coins = gameManager.GetCoins(),
-            scores = gameManager.GetScores()
+            coins = gameManager.coins.GetCoins(),
+            scores = gameManager.scores
         };
 
         File.WriteAllText(path,
@@ -53,11 +52,8 @@ public class Saves : MonoBehaviour
             {
                 return;
             }
-            gameManager.AddCoins(data.coins);
-            foreach (Timer.Score score in data.scores)
-            {
-                gameManager.AddScore(score);
-            }
+            gameManager.coins = new Coin(data.coins);
+            gameManager.scores = data.scores;
         }
     }
 }

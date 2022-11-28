@@ -26,7 +26,7 @@ public class Timer : MonoBehaviour
         {
             TimeSpan time = DateTime.Now.Subtract(startTime);
             timerText.text = time.ToString(@"dd") + "d " + time.ToString(@"hh\:mm\:ss");
-            gameManager.AddScore(new Score() {time = time, date = DateTime.Now});
+            gameManager.scores.Add(new Score() {time = time, date = DateTime.Now});
         }
     }
 }

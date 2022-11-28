@@ -7,8 +7,13 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text scoreBoardText;
     [SerializeField] private TMP_Text coinsText;
-    private int coins = 0;
-    private List<Timer.Score> scores = new List<Timer.Score>();
+    public Coin coins;
+    public List<Timer.Score> scores;
+
+    private void Awake()
+    {
+        DisplayCoins();
+    }
 
     //temp score board display
     private void Update()
@@ -29,24 +34,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int GetCoins()
+    public void DisplayCoins()
     {
-        return coins;
-    }
-
-    public List<Timer.Score> GetScores()
-    {
-        return scores;
-    }
-
-    public void AddCoins(int coins)
-    {
-        this.coins += coins;
-        coinsText.text = this.coins.ToString();
-    }
-
-    public void AddScore(Timer.Score score)
-    {
-        scores.Add(score);
+        coinsText.text = coins.GetCoins().ToString();
     }
 }
