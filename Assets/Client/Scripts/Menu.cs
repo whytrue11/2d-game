@@ -20,7 +20,6 @@ public class Menu : MonoBehaviour
 
     public void Pause()
     {
-        Debug.Log(Time.timeScale);
         Time.timeScale = 0;
         menu.SetActive(true);
     }
