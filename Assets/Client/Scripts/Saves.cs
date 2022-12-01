@@ -9,12 +9,16 @@ using UnityEngine;
 public class Saves : MonoBehaviour
 {
     private static String path;
-    [SerializeField] private GameManager gameManager;
+    private static bool initLoad = false;
 
     private void Awake()
     {
-        path = Application.persistentDataPath + "/save.json";
-        Load();
+        if (!initLoad)
+        {
+            path = Application.persistentDataPath + "/save.json";
+            Load();
+            initLoad = true;
+        }
     }
 
     private void OnApplicationQuit()
@@ -32,8 +36,8 @@ public class Saves : MonoBehaviour
     {
         SaveData data = new SaveData()
         {
-            coins = gameManager.coins.GetCoins(),
-            scores = gameManager.scores
+            coins = DataHolder.coins.GetCoins(),
+            scores = DataHolder.scores
         };
 
         File.WriteAllText(path,
@@ -65,14 +69,15 @@ public class Saves : MonoBehaviour
                 return;
             }
 
-            gameManager.coins = new Coin(data.coins);
-            gameManager.scores = data.scores;
+            DataHolder.coins = new Coin(data.coins);
+            DataHolder.scores = data.scores;
         }
         else
         {
-            gameManager.coins = new Coin(0);
-            gameManager.scores = new List<Timer.Score>();
+            DataHolder.coins = new Coin(0);
+            DataHolder.scores = new List<Timer.Score>();
         }
+        Debug.Log("Load save success!");
     }
 
     private class CryptoEngine

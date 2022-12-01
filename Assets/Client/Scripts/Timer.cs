@@ -2,31 +2,48 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
+public class Timer: MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
+    private bool pause = false;
     
-    [SerializeField] private TMP_Text timerText;
-    private DateTime startTime;
-
-    void Start()
+    public void Begin()
     {
-        startTime = DateTime.Now;
+        DataHolder.startTime = DateTime.Now;
+        DataHolder.currentScore = new Score()
+        {
+            time = new TimeSpan(0, 0 , 0),
+            date = DateTime.Now
+        };
+    }
+
+    public void Pause()
+    {
+        DataHolder.currentScore.time = DataHolder.currentScore.time.Add(DateTime.Now.Subtract(DataHolder.startTime));
+        pause = true;
+        Debug.Log("Pause: " + DataHolder.currentScore.time.ToString(@"hh\:mm\:ss") + "\n");
     }
     
-    public class Score
+    public void Unpause()
+    {
+        DataHolder.startTime = DateTime.Now;
+        pause = false;
+        Debug.Log("Unpause: " + DataHolder.currentScore.time.ToString(@"hh\:mm\:ss") + "\n");
+    }
+
+    public void End()
+    {
+        if (!pause)
+        {
+            DataHolder.currentScore.time = DataHolder.currentScore.time.Add(DateTime.Now.Subtract(DataHolder.startTime));
+        }
+        DataHolder.currentScore.date = DateTime.Now;
+        DataHolder.scores.Add(DataHolder.currentScore);
+        Debug.Log("Add score");
+    }
+
+    public struct Score
     {
         public TimeSpan time;
         public DateTime date;
-    }
-
-    private void OnTriggerEnter2D(Collider2D coinCollider)
-    {
-        if (coinCollider.gameObject.tag == "Coin")
-        {
-            TimeSpan time = DateTime.Now.Subtract(startTime);
-            timerText.text = time.ToString(@"dd") + "d " + time.ToString(@"hh\:mm\:ss");
-            gameManager.scores.Add(new Score() {time = time, date = DateTime.Now});
-        }
     }
 }

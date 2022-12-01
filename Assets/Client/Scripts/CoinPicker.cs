@@ -8,7 +8,7 @@ public class CoinPicker : MonoBehaviour
     {
         if (coinCollider.gameObject.CompareTag("Coin"))
         {
-            gameManager.coins.AddCoins(1);
+            DataHolder.coins.AddCoins(1);
             gameManager.DisplayCoins();
             Destroy(coinCollider.gameObject);
         }

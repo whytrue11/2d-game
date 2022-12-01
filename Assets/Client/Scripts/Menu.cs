@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
-    [SerializeField] private GameObject menu;
     public void ChangeScene(int scene)
     {
         Time.timeScale = 1;
@@ -21,13 +22,22 @@ public class Menu : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0;
-        menu.SetActive(true);
     }
 
     public void Unpause()
     {
         Time.timeScale = 1;
-        menu.SetActive(false);
+    }
+
+    public void DisplayScores(TMP_Text scoreBoardText)
+    {
+        string scoreBoard = "";
+        foreach (Timer.Score score in DataHolder.scores)
+        {
+            scoreBoard += score.date.ToShortDateString() + " " + score.time.ToString(@"hh\:mm\:ss") + "\n";
+        }
+
+        scoreBoardText.text = scoreBoard;
     }
 
     public void Options()
