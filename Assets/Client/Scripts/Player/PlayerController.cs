@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
-			buff.Apply();
+			StartCoroutine (buff.Apply());
 		}
 	}
 

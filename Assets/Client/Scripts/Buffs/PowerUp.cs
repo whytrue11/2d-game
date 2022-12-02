@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-
+using System.Collections;
 
 public class PowerUp : MonoBehaviour
 {
@@ -41,7 +41,7 @@ public class PowerUp : MonoBehaviour
         }
     }
 
-    public void Apply()
+    public IEnumerator Apply()
     {
         Shop shop = GetComponentInParent(typeof(Shop)) as Shop;
         if(shop != null)
@@ -51,7 +51,14 @@ public class PowerUp : MonoBehaviour
                 shop.RemoveCoins(buff.GetBuffEffect().getPrice());
                 buff.GetBuffEffect().Apply(player);
                 Destroy(gameObject);
-            } 
+            }
+            else 
+            {
+                Color priceColor = priceText.color;
+                priceText.color = Color.red;
+                yield return new WaitForSeconds(2);
+                priceText.color = priceColor;
+            }
         } 
     }
 }
