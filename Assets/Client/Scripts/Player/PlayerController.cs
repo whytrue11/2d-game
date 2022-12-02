@@ -17,7 +17,9 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Transform groundCheck;                           // A position marking where to check if the player is grounded.
 	[SerializeField] private Transform ceilingCheck;                          // A position marking where to check for ceilings
 	[SerializeField] private Collider2D crouchDisableCollider;   // A collider that will be disabled when crouching
-
+	[SerializeField] private Health playerHealth;
+	[SerializeField] private Attack playerAttack;
+	[SerializeField] private Vector3 respawnPoint;
 
 	const float groundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool grounded;            // Whether or not the player is grounded.
@@ -52,6 +54,20 @@ public class PlayerController : MonoBehaviour
 
 		if (OnCrouchEvent == null)
 			OnCrouchEvent = new BoolEvent();
+	}
+	
+	private void Start()
+	{
+		transform.position = respawnPoint;
+		InitPlayerParams();
+	}
+	
+	private void InitPlayerParams()
+	{
+		GameManager gameManager = FindObjectOfType<GameManager>();
+		playerHealth.SetHealth(100);
+		DataHolder.coins.SetCoins(4);
+		gameManager.DisplayCoins();
 	}
 
 	private void FixedUpdate()
@@ -240,5 +256,16 @@ public class PlayerController : MonoBehaviour
 		rigidBody2D.gravityScale = originalGravity;
 		yield return new WaitForSeconds(dashCooldown);
 		canDash = true;
+	}
+	
+	
+	public void PlayerDmg(int dmg)
+	{
+		playerHealth.DmgUnit(dmg);
+		if (playerHealth.GetHealth() <= 0)
+		{
+			transform.position = respawnPoint;
+			InitPlayerParams();
+		}
 	}
 }

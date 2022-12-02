@@ -25,6 +25,11 @@ public class Coin
     {
         coins -= new SecureInt(value);
     }
+
+    public void SetCoins(int value)
+    {
+        coins = new SecureInt(value);
+    }
      
     private class SecureInt
     {
