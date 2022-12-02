@@ -1,17 +1,23 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
 
 	[SerializeField] private float jumpForce = 400f;                          // Amount of force added when the player jumps.
+	[SerializeField] private float dashForce = 400f;                          // Amount of force added when the player dashes.
+	[SerializeField] private float dashCooldown = 1.5f;
+	[SerializeField] private float dashingTime = 0.2f;
 	[Range(0, 1)][SerializeField] private float crouchSpeed = .36f;           // Amount of maxSpeed applied to crouching movement. 1 = 100%
 	[Range(0, .3f)][SerializeField] private float movementSmoothing = .05f;   // How much to smooth out the movement
 	[SerializeField] private bool airControl = false;                         // Whether or not a player can steer while jumping;
+	[SerializeField] private bool canDoubleJump = false;
 	[SerializeField] private LayerMask whatIsGround;                          // A mask determining what is ground to the character
 	[SerializeField] private Transform groundCheck;                           // A position marking where to check if the player is grounded.
 	[SerializeField] private Transform ceilingCheck;                          // A position marking where to check for ceilings
-	[SerializeField] private Collider2D crouchDisableCollider;                // A collider that will be disabled when crouching
+	[SerializeField] private Collider2D crouchDisableCollider;   // A collider that will be disabled when crouching
+
 
 	const float groundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool grounded;            // Whether or not the player is grounded.
@@ -19,7 +25,13 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody2D rigidBody2D;
 	private bool facingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 velocity = Vector3.zero;
+	private bool canDash = true;
+	private int jumpCounter = 1;
+	
 
+	private bool nextToTheItem;
+	private PowerUp buff;
+    
 	[Header("Events")]
 	[Space]
 
@@ -56,13 +68,16 @@ public class PlayerController : MonoBehaviour
 			{
 				grounded = true;
 				if (!wasgrounded)
+                {
 					OnLandEvent.Invoke();
+					jumpCounter = 2;
+				}	
 			}
 		}
 	}
 
 
-	public void Move(float move, bool crouch, bool jump)
+	public void Move(float move, bool crouch, bool jump, bool dash)
 	{
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
@@ -126,14 +141,76 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 		// If the player should jump...
-		if (grounded && jump)
+		if(!canDoubleJump)
+        {
+			if (grounded && jump)
+			{
+				// Add a vertical force to the player.
+				//grounded = false;
+				rigidBody2D.velocity =  Vector2.up * jumpForce;
+			}
+		}
+        else
+        {
+			if (grounded && jump)
+			{
+				// Add a vertical force to the player.
+				//grounded = false;
+				//jumpCounter--;
+				rigidBody2D.velocity = Vector2.up * jumpForce;
+			}
+
+			if(!grounded && jump)
+            {
+				jumpCounter--;
+			}
+		
+			if (!grounded && jump && jumpCounter == 1)
+			{
+				//grounded = false;
+				jumpCounter--;
+				rigidBody2D.velocity = Vector2.up * jumpForce;
+			}
+			
+		}
+		
+		if (dash)
 		{
-			// Add a vertical force to the player.
-			grounded = false;
-			rigidBody2D.AddForce(new Vector2(0f, jumpForce));
+			if(canDash)
+            {
+				StartCoroutine(Dash());
+			}
 		}
 	}
 
+	public void Action()
+	{
+
+		if (!nextToTheItem)
+		{
+			// Combat
+		}
+		else
+		{
+			buff.Apply();
+		}
+	}
+
+	public void NextToTheBuff(PowerUp buff)
+	{
+		nextToTheItem = true;
+		this.buff = buff;
+	}
+	public void NotNextToTheBuff()
+	{
+		nextToTheItem = false;
+		this.buff = null;
+	}
+
+	public void setDoubleJump(bool doubleJump)
+    {
+		canDoubleJump = doubleJump;
+    }
 
 	private void Flip()
 	{
@@ -144,5 +221,24 @@ public class PlayerController : MonoBehaviour
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+	}
+
+	private IEnumerator Dash()
+	{
+		canDash = false;
+		float originalGravity = rigidBody2D.gravityScale;
+		rigidBody2D.gravityScale = 0f;
+		if (facingRight)
+		{
+			rigidBody2D.velocity = new Vector2(dashForce, 0f);
+		}
+		else
+		{
+			rigidBody2D.velocity = new Vector2(-dashForce, 0f);
+		}
+		yield return new WaitForSeconds(dashingTime);
+		rigidBody2D.gravityScale = originalGravity;
+		yield return new WaitForSeconds(dashCooldown);
+		canDash = true;
 	}
 }

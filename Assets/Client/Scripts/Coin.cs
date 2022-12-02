@@ -18,11 +18,14 @@ public class Coin
 
     public void AddCoins(int value)
     {
-        coins = coins + new SecureInt(value);
+        coins += new SecureInt(value);
     }
-    
-    
-    
+
+    public void RemoveCoins(int value)
+    {
+        coins -= new SecureInt(value);
+    }
+     
     private class SecureInt
     {
         private int offset;
