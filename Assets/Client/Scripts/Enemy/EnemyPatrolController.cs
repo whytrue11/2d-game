@@ -24,7 +24,7 @@ public class EnemyPatrolController : MonoBehaviour
     //     Init();
     // }
 
-    private void Update()
+    private void FixedUpdate()
     {
         MoveToNextPoint();
     }
@@ -90,7 +90,7 @@ public class EnemyPatrolController : MonoBehaviour
         //Move the enemy towards the goal point
 
         var tempPos = goalPoint;
-        transform.position = Vector2.MoveTowards(transform.position, tempPos.position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, tempPos.position, speed * Time.fixedDeltaTime);
 
 
         if (Vector2.Distance(transform.position, goalPoint.position) < 0.2f)

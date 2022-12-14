@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float runSpeed;
     [SerializeField] private Animator animator;
 
+    private GameManager gameManager;
+
     private PlayerController controller;
 
     private float horizontalMove = 0f;
@@ -26,10 +28,16 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<PlayerController>();
+        gameManager = GameObject.FindGameObjectWithTag("Utils").GetComponent<GameManager>();
     }
 
     void Update()
     {
+        if (gameManager.pause)
+        {
+            return;
+        }
+        
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         animator.SetFloat("HorizontalMove", Mathf.Abs(horizontalMove));
         if (Input.GetButtonDown("Jump"))

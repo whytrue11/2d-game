@@ -513,7 +513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 535108507}
   - component: {fileID: 535108506}
-  - component: {fileID: 535108505}
+  - component: {fileID: 535108508}
   m_Layer: 0
   m_Name: Utils
   m_TagString: Untagged
@@ -521,18 +521,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &535108505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535108504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e42c1fa7301f947498e4ce9e884f6a91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &535108506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,6 +548,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &535108508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535108504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd51d94552ebd9e43930eda59dfbde2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinsText: {fileID: 0}
+  rooms: []
+  endRoom: {fileID: 0}
+  roomsSpawnLimit: 0
+  roomsSpawned: 0
+  pause: 0
 --- !u!1 &713888731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1179,8 +1185,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 535108505}
-        m_TargetAssemblyTypeName: Timer, Assembly-CSharp
+      - m_Target: {fileID: 535108508}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Begin
         m_Mode: 1
         m_Arguments:

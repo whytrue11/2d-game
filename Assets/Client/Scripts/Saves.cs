@@ -71,11 +71,15 @@ public class Saves : MonoBehaviour
 
             DataHolder.coins = new Coin(data.coins);
             DataHolder.scores = data.scores;
+
+            DataHolder.localCoins = new Coin(0);
         }
         else
         {
             DataHolder.coins = new Coin(0);
             DataHolder.scores = new List<Timer.Score>();
+            
+            DataHolder.localCoins = new Coin(0);
         }
         Debug.Log("Load save success!");
     }

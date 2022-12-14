@@ -66,8 +66,6 @@ public class PlayerController : MonoBehaviour
 	{
 		GameManager gameManager = FindObjectOfType<GameManager>();
 		playerHealth.SetHealth(100);
-		DataHolder.coins.SetCoins(4);
-		gameManager.DisplayCoins();
 	}
 
 	private void FixedUpdate()

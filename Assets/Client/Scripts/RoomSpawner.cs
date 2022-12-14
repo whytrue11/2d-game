@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class RoomSpawner : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
+    private GameManager gameManager;
 
     private void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("Utils").GetComponent<GameManager>();
         Spawn();
     }
 

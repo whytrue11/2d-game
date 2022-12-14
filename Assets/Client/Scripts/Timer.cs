@@ -2,11 +2,9 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class Timer: MonoBehaviour
+public static class Timer
 {
-    private bool pause = false;
-    
-    public void Begin()
+    public static void Begin()
     {
         DataHolder.startTime = DateTime.Now;
         DataHolder.currentScore = new Score()
@@ -14,25 +12,24 @@ public class Timer: MonoBehaviour
             time = new TimeSpan(0, 0 , 0),
             date = DateTime.Now
         };
+        Debug.Log("Begin: " + DataHolder.currentScore.time.ToString(@"hh\:mm\:ss") + "\n");
     }
 
-    public void Pause()
+    public static void Pause()
     {
         DataHolder.currentScore.time = DataHolder.currentScore.time.Add(DateTime.Now.Subtract(DataHolder.startTime));
-        pause = true;
         Debug.Log("Pause: " + DataHolder.currentScore.time.ToString(@"hh\:mm\:ss") + "\n");
     }
     
-    public void Unpause()
+    public static void Unpause()
     {
         DataHolder.startTime = DateTime.Now;
-        pause = false;
         Debug.Log("Unpause: " + DataHolder.currentScore.time.ToString(@"hh\:mm\:ss") + "\n");
     }
 
-    public void End()
+    public static void End(bool pause)
     {
-        if (!pause)
+        if (pause)
         {
             DataHolder.currentScore.time = DataHolder.currentScore.time.Add(DateTime.Now.Subtract(DataHolder.startTime));
         }
