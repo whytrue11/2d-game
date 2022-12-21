@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd94ccaf4186624d9b591a9be8a336b, type: 3}
   m_Name: DoubleJump
   m_EditorClassIdentifier: 
-  price: 5
+  price: 10
   description: "\u0414\u0432\u043E\u0439\u043D\u043E\u0439 \u043F\u0440\u044B\u0436\u043E\u043A"
