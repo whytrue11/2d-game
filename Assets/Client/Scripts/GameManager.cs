@@ -50,6 +50,11 @@ public class GameManager : MonoBehaviour
         LeavePartCoins();
     }
 
+    public int GetCoins()
+    {
+        return DataHolder.localCoins.GetCoins() + DataHolder.coins.GetCoins(); 
+    }
+
     public void AddCoins(int coins)
     {
         DataHolder.localCoins.AddCoins(coins);

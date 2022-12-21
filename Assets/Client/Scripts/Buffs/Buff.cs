@@ -17,4 +17,9 @@ public class Buff
     {
         return buffSprite;
     }
+
+    public string GetBuffDescription()
+    {
+        return buff.getDescription();
+    }
 }

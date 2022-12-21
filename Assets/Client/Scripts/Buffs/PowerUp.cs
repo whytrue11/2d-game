@@ -5,6 +5,7 @@ using System.Collections;
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] private TMP_Text priceText;
+    [SerializeField] private TMP_Text descriptionText;
     private PlayerController playerController;
     private GameObject player;
     private Buff buff;
@@ -26,8 +27,9 @@ public class PowerUp : MonoBehaviour
                 this.playerController = (PlayerController)collision.GetComponentInParent(typeof(PlayerController));
                 this.playerController.NextToTheBuff(this);
                 player = collision.gameObject;
+                descriptionText.text = buff.GetBuffDescription();
+                descriptionText.fontSize = 6.5f;
             }
-                
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
@@ -37,7 +39,7 @@ public class PowerUp : MonoBehaviour
             playerController.NotNextToTheBuff();
             playerController = null;
             player = null;
-
+            descriptionText.text = "";
         }
     }
 

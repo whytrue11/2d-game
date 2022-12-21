@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
 	public void Move(float move, bool crouch, bool jump, bool dash)
 	{
 		// If crouching, check to see if the character can stand up
-		if (!crouch)
+		if (!crouch && wasCrouching)
 		{
 			// If the character has a ceiling preventing them from standing up, keep them crouching
 			if (Physics2D.OverlapCircle(ceilingCheck.position, ceilingRadius, whatIsGround))
