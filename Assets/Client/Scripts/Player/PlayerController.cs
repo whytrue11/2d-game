@@ -1,6 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using System.Threading;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,7 +22,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Collider2D crouchDisableCollider;   // A collider that will be disabled when crouching
 	[SerializeField] private Health playerHealth;
 	[SerializeField] private Attack playerAttack;
-	[SerializeField] private Vector3 respawnPoint;
+	[SerializeField] private GameObject deathMenu;
 
 	const float groundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool grounded;            // Whether or not the player is grounded.
@@ -33,6 +36,9 @@ public class PlayerController : MonoBehaviour
 
 	private bool nextToTheItem;
 	private PowerUp buff;
+	
+	private GameManager gameManager;
+	private bool isDead;
     
 	[Header("Events")]
 	[Space]
@@ -58,14 +64,8 @@ public class PlayerController : MonoBehaviour
 	
 	private void Start()
 	{
-		transform.position = respawnPoint;
-		InitPlayerParams();
-	}
-	
-	private void InitPlayerParams()
-	{
-		GameManager gameManager = FindObjectOfType<GameManager>();
 		playerHealth.SetHealth(100);
+		gameManager = GameObject.FindGameObjectWithTag("Utils").GetComponent<GameManager>();
 	}
 
 	private void FixedUpdate()
@@ -260,10 +260,39 @@ public class PlayerController : MonoBehaviour
 	public void PlayerDmg(int dmg)
 	{
 		playerHealth.DmgUnit(dmg);
-		if (playerHealth.GetHealth() <= 0)
+		if (playerHealth.GetHealth() <= 0 && !isDead)
 		{
-			transform.position = respawnPoint;
-			InitPlayerParams();
+			isDead = true;
+			Die();
+		}
+	}
+	
+	private void Die()
+	{
+		deathMenu.SetActive(true);
+		gameManager.pause = true;
+		gameManager.End(true);
+
+		StartCoroutine("FadeDeathScreen");
+	}
+
+	private IEnumerator FadeDeathScreen()
+	{
+		Image image = deathMenu.GetComponent<Image>();
+		Color color = image.color;
+		color.a = 0;
+		image.color = color;
+
+		float fadeTimeSeconds = 1.5f;
+		float time = 1f / fadeTimeSeconds;
+		float progress = 0;
+		
+		while (progress < 1)
+		{
+			progress += time * Time.deltaTime;
+			color.a = Mathf.Lerp(0, 1, progress);
+			image.color = color;
+			yield return null;
 		}
 	}
 }

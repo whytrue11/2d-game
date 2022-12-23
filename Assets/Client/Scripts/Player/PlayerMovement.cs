@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (gameManager.pause)
         {
+            horizontalMove = 0;
+            animator.SetFloat("HorizontalMove", 0);
             return;
         }
         

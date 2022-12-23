@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     public bool pause;
 
-    private double coinPercent = 2 / 3;
+    private double coinPercent = (double) 2 / 3;
 
     private void Start()
     {
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         DisplayCoins();
     }
 
-    public static void Begin()
+    public void Begin()
     {
         Timer.Begin();
     }
@@ -83,8 +83,7 @@ public class GameManager : MonoBehaviour
         DisplayCoins();
     }
     
-    //potential private
-    public void DisplayCoins()
+    private void DisplayCoins()
     {
         if (!coinsText.IsUnityNull())
         {
