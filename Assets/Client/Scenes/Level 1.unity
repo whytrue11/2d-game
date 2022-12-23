@@ -4216,7 +4216,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1520387203}
         m_TargetAssemblyTypeName: MusicVolume, Assembly-CSharp
         m_MethodName: SetVolume
         m_Mode: 0
