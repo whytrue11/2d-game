@@ -30,6 +30,7 @@ public class Saves : MonoBehaviour
     {
         public int coins;
         public List<Timer.Score> scores;
+        public float musicVolume;
     }
 
     public void Save()
@@ -37,7 +38,8 @@ public class Saves : MonoBehaviour
         SaveData data = new SaveData()
         {
             coins = DataHolder.coins.GetCoins(),
-            scores = DataHolder.scores
+            scores = DataHolder.scores,
+            musicVolume = DataHolder.musicVolume
         };
 
         File.WriteAllText(path,
@@ -71,6 +73,7 @@ public class Saves : MonoBehaviour
 
             DataHolder.coins = new Coin(data.coins);
             DataHolder.scores = data.scores;
+            DataHolder.musicVolume = data.musicVolume;
 
             DataHolder.localCoins = new Coin(0);
         }
@@ -78,6 +81,7 @@ public class Saves : MonoBehaviour
         {
             DataHolder.coins = new Coin(0);
             DataHolder.scores = new List<Timer.Score>();
+            DataHolder.musicVolume = 0.3f;
             
             DataHolder.localCoins = new Coin(0);
         }

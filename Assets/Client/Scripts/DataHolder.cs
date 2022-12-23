@@ -12,4 +12,6 @@ public static class DataHolder
     public static Timer.Score currentScore;
 
     public static Coin localCoins;
+
+    public static float musicVolume;
 }
