@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using Object = System.Object;
 
 
 public class Attack : MonoBehaviour
@@ -27,12 +29,27 @@ public class Attack : MonoBehaviour
 
                 for (int i = 0; i < coll.Length; i++)
                 {
-                    if (coll[i].gameObject.CompareTag("Enemy"))
+                    if (coll[i].gameObject.tag.Contains("Enemy"))
                     {
-                        EnemyPatrolController enemyController = coll[i].gameObject.GetComponent<EnemyPatrolController>();
+                        EnemyController enemyController = null;
+                        switch (coll[i].gameObject.tag)
+                        {
+                            case "EnemyPatrol":
+                                enemyController = coll[i].gameObject.GetComponent<EnemyPatrolController>();
+                                break;
+                            case "EnemyPathFinder":
+                                enemyController = coll[i].gameObject.GetComponent<EnemyPathFinderController>();
+                                break;
+                            case "EnemyPatrolZone":
+                                enemyController = coll[i].gameObject.GetComponent<EnemyPatrolZoneController>();
+                                break;
+                        }
+                        
+                        //EnemyPatrolController enemyController = coll[i].gameObject.GetComponent<EnemyPatrolController>();
                         Debug.Log("Player dmg Enemy on " + damage);
                         Debug.Log("Attack location" + attackLocation.position);
                         Debug.Log("Attack range" + attackRange);
+                        
                         enemyController.TakeDamage(damage);
                     }
 
@@ -46,11 +63,11 @@ public class Attack : MonoBehaviour
         }
     }
         
-    // private void OnDrawGizmosSelected()
-    // {
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawWireCube(attackLocation.position, attackRange);
-    // }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(attackLocation.position, attackRange);
+    }
         
         
 }

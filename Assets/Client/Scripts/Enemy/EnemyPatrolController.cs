@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPatrolController : MonoBehaviour
+public class EnemyPatrolController : EnemyController
 {
     public List<Transform> points;
 
@@ -18,11 +18,7 @@ public class EnemyPatrolController : MonoBehaviour
 
     //The value of that applies to ID for changing
     private int idChangeValue = 1;
-
-    // private void Reset()
-    // {
-    //     Init();
-    // }
+    
 
     private void FixedUpdate()
     {
@@ -45,38 +41,6 @@ public class EnemyPatrolController : MonoBehaviour
             controller.PlayerDmg(damage);
         }
     }
-
-    // private void Init()
-    // {
-    //     //Make box collider trigger
-    //     GetComponent<BoxCollider2D>().isTrigger = true;
-    //
-    //     //Create Root object
-    //     var root = new GameObject(name + "_Root");
-    //     //Reset Position of Root to enemy object
-    //     root.transform.position = transform.position;
-    //     //Set enemy object as child of root
-    //     transform.SetParent(root.transform);
-    //     //Create Waypoints object
-    //     var waypoints = new GameObject("Waypoints");
-    //     //Reset waypoints position to root        
-    //     //Make waypoints object child of root
-    //     waypoints.transform.SetParent(root.transform);
-    //     waypoints.transform.position = root.transform.position;
-    //     //Create two points (gameobject) and reset their position to waypoints objects
-    //     //Make the points children of waypoint object
-    //     var p1 = new GameObject("Point1");
-    //     p1.transform.SetParent(waypoints.transform);
-    //     p1.transform.position = root.transform.position;
-    //     var p2 = new GameObject("Point2");
-    //     p2.transform.SetParent(waypoints.transform);
-    //     p2.transform.position = root.transform.position;
-    //
-    //     //Init points list then add the points to it
-    //     points = new List<Transform>();
-    //     points.Add(p1.transform);
-    //     points.Add(p2.transform);
-    // }
 
     private void MoveToNextPoint()
     {
@@ -105,7 +69,7 @@ public class EnemyPatrolController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
         enemyHealth.DmgUnit(damage);
         if (enemyHealth.GetHealth() <= 0)

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyPatrolZoneController : MonoBehaviour
+public class EnemyPatrolZoneController : EnemyController
 {
     public Transform rayCast;
     public LayerMask raycastMask;
@@ -13,13 +13,13 @@ public class EnemyPatrolZoneController : MonoBehaviour
     private bool attackMode;
     private bool cooling;
     private float distance;
-
+    [SerializeField] private Health enemyHealth;
 
     private RaycastHit2D hit;
     private bool inRange;
     private float intTimer;
     private Transform target;
-
+    [SerializeField] private int damage; 
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class EnemyPatrolZoneController : MonoBehaviour
         intTimer = timer;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!attackMode) Move();
 
@@ -60,13 +60,17 @@ public class EnemyPatrolZoneController : MonoBehaviour
 
     private void EnemyLogic()
     {
+        if (cooling)
+        {
+            Cooldown();
+            return;
+        }
+
         distance = Vector2.Distance(transform.position, target.position);
 
         if (distance > attackDistance)
             StopAttack();
         else if (attackDistance >= distance && cooling == false) Attack();
-
-        if (cooling) Cooldown();
     }
 
     private void Move()
@@ -81,11 +85,16 @@ public class EnemyPatrolZoneController : MonoBehaviour
     {
         timer = intTimer;
         attackMode = true;
+        Debug.Log(cooling);
+        Debug.Log("Meet with Player");
+        var controller = target.gameObject.GetComponentInParent<PlayerController>();
+        controller.PlayerDmg(damage);
+        cooling = true;
     }
 
     private void Cooldown()
     {
-        timer -= Time.deltaTime;
+        timer -= Time.fixedDeltaTime;
 
         if (timer <= 0 && cooling && attackMode)
         {
@@ -145,5 +154,15 @@ public class EnemyPatrolZoneController : MonoBehaviour
         }
         
         transform.eulerAngles = rotation;
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        enemyHealth.DmgUnit(damage);
+        if (enemyHealth.GetHealth() <= 0)
+        {
+            Debug.Log("Enemy death");
+            Destroy(gameObject);
+        }
     }
 }
