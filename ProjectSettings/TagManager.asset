@@ -7,6 +7,10 @@ TagManager:
   - Coin
   - Enemy
   - Utils
+  - DeathMenu
+  - EnemyPatrol
+  - EnemyPathFinder
+  - EnemyPatrolZone
   layers:
   - Default
   - TransparentFX
@@ -18,7 +22,7 @@ TagManager:
   - Ground
   - Background
   - CameraLimits
-  - Enemy
+  - EnemyPatrol
   - 
   - 
   - 
