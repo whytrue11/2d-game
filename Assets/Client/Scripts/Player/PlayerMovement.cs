@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         runSpeed = DataHolder.playerRunSpeed;
     }
 
-    void Update()
+    /*void Update()
     {
         if (gameManager.pause)
         {
@@ -64,7 +64,38 @@ public class PlayerMovement : MonoBehaviour
         {
             crouch = false; 
         }
+    }*/
+    
+    //Keyboard (temp)
+    void Update()
+    {
+        if (gameManager.pause)
+        {
+            horizontalMove = 0;
+            animator.SetFloat("HorizontalMove", 0);
+            return;
+        }
+        
+        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        animator.SetFloat("HorizontalMove", Mathf.Abs(horizontalMove));
+        if (Input.GetButtonDown("Jump"))
+        {
+            jump = true;
+        }
+        if (Input.GetButtonDown("Crouch"))
+        {
+            crouch = true;
+        }
+        else if (Input.GetButtonUp("Crouch"))
+        {
+            crouch = false;
+        }
+        if (Input.GetButtonDown("Dash"))
+        {
+            dash = true;
+        }
     }
+    
     public void MakeDash()
     {
         dash = true;

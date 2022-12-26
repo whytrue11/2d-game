@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Awake()
 	{
+		gameManager = GameObject.FindGameObjectWithTag("Utils").GetComponent<GameManager>();
 		rigidBody2D = GetComponent<Rigidbody2D>();
 
 		if (OnLandEvent == null)
