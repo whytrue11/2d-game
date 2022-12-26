@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Health playerHealth;
 	[SerializeField] private Attack playerAttack;
 	[SerializeField] private GameObject deathMenu;
+	[SerializeField] private Animator animator;
 
 	const float groundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool grounded;            // Whether or not the player is grounded.
@@ -32,11 +33,14 @@ public class PlayerController : MonoBehaviour
 	private Vector3 velocity = Vector3.zero;
 	private bool canDash = true;
 	private int jumpCounter = 1;
-	
 
-	private bool nextToTheItem;
+
 	private PowerUp buff;
-	
+	private ChangeWeapon weapon;
+	private bool nextToTheBuff = false;
+	private bool nextToTheWeapon = false;
+	private bool invulnerable = false;
+
 	private GameManager gameManager;
 	private bool isDead;
     
@@ -64,8 +68,16 @@ public class PlayerController : MonoBehaviour
 	
 	private void Start()
 	{
-		playerHealth.SetHealth(100);
-		gameManager = GameObject.FindGameObjectWithTag("Utils").GetComponent<GameManager>();
+		InitPlayerParams();
+	}
+
+	private void InitPlayerParams()
+	{
+		playerHealth.SetHealth(DataHolder.playerCurrentHealth);
+		playerHealth.SetMaxHealth(DataHolder.playerMaxHealth);
+		playerAttack.SetWeaponAnimation(DataHolder.playerWeaponAnimation);
+		playerAttack.SetDamage(DataHolder.playerDamage);
+		canDoubleJump = DataHolder.playerDoubleJumpBuff;
 	}
 
 	private void FixedUpdate()
@@ -83,6 +95,7 @@ public class PlayerController : MonoBehaviour
 				grounded = true;
 				if (!wasgrounded)
                 {
+					animator.SetBool("Jump", false);
 					OnLandEvent.Invoke();
 					jumpCounter = 2;
 				}	
@@ -114,6 +127,7 @@ public class PlayerController : MonoBehaviour
 				{
 					wasCrouching = true;
 					OnCrouchEvent.Invoke(true);
+					animator.SetBool("Crouch", true);
 				}
 
 				// Reduce the speed by the crouchSpeed multiplier
@@ -133,6 +147,7 @@ public class PlayerController : MonoBehaviour
 				{
 					wasCrouching = false;
 					OnCrouchEvent.Invoke(false);
+					animator.SetBool("Crouch", false);
 				}
 			}
 
@@ -157,32 +172,35 @@ public class PlayerController : MonoBehaviour
 		// If the player should jump...
 		if(!canDoubleJump)
         {
-			if (grounded && jump)
+			if (!crouch && grounded && jump)
 			{
 				// Add a vertical force to the player.
 				//grounded = false;
+				animator.SetBool("Jump", true);
 				rigidBody2D.velocity =  Vector2.up * jumpForce;
 			}
 		}
         else
         {
-			if (grounded && jump)
+			if (!crouch && grounded && jump)
 			{
 				// Add a vertical force to the player.
 				//grounded = false;
 				//jumpCounter--;
+				animator.SetBool("Jump", true);
 				rigidBody2D.velocity = Vector2.up * jumpForce;
 			}
 
-			if(!grounded && jump)
+			if(!crouch && !grounded && jump)
             {
 				jumpCounter--;
 			}
 		
-			if (!grounded && jump && jumpCounter == 1)
+			if (!crouch && !grounded && jump && jumpCounter == 1)
 			{
 				//grounded = false;
 				jumpCounter--;
+				animator.SetBool("Jump", true);
 				rigidBody2D.velocity = Vector2.up * jumpForce;
 			}
 			
@@ -197,34 +215,54 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void Action()
+	public void AttackEnemy()
 	{
-
-		if (!nextToTheItem)
+		if (playerAttack.GetCanAttack())
 		{
-			// Combat
+			StartCoroutine(playerAttack.AttackEnemy());
 		}
-		else
+	}
+
+	public void PickUpItem()
+	{
+		if (nextToTheBuff)
 		{
-			StartCoroutine (buff.Apply());
+			StartCoroutine(buff.Apply());
+		}
+
+		if (nextToTheWeapon)
+		{
+			StartCoroutine(weapon.Apply());
 		}
 	}
 
 	public void NextToTheBuff(PowerUp buff)
 	{
-		nextToTheItem = true;
+		nextToTheBuff = true;
 		this.buff = buff;
 	}
 	public void NotNextToTheBuff()
 	{
-		nextToTheItem = false;
+		nextToTheBuff = false;
 		this.buff = null;
 	}
 
+	public void NextToTheWeapon(ChangeWeapon weapon)
+	{
+		nextToTheWeapon = true;
+		this.weapon = weapon;
+	}
+	public void NotNextToTheWeapon()
+	{
+		nextToTheWeapon = false;
+		this.weapon = null;
+	}
+
 	public void setDoubleJump(bool doubleJump)
-    {
+	{
 		canDoubleJump = doubleJump;
-    }
+	}
+
 
 	private void Flip()
 	{
@@ -240,6 +278,8 @@ public class PlayerController : MonoBehaviour
 	private IEnumerator Dash()
 	{
 		canDash = false;
+		animator.SetTrigger("Dash");
+		invulnerable = true;
 		float originalGravity = rigidBody2D.gravityScale;
 		rigidBody2D.gravityScale = 0f;
 		if (facingRight)
@@ -251,6 +291,7 @@ public class PlayerController : MonoBehaviour
 			rigidBody2D.velocity = new Vector2(-dashForce, 0f);
 		}
 		yield return new WaitForSeconds(dashingTime);
+		invulnerable = false;
 		rigidBody2D.gravityScale = originalGravity;
 		yield return new WaitForSeconds(dashCooldown);
 		canDash = true;
@@ -259,7 +300,10 @@ public class PlayerController : MonoBehaviour
 	
 	public void PlayerDmg(int dmg)
 	{
-		playerHealth.DmgUnit(dmg);
+		if (!invulnerable)
+		{
+			playerHealth.DmgUnit(dmg);
+		}
 		if (playerHealth.GetHealth() <= 0 && !isDead)
 		{
 			isDead = true;

@@ -1,0 +1,32 @@
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "PowerUps/Weapon")]
+public class PlayerWeapon : PowerUpEffect
+{
+    [SerializeField] private int weaponAnimationLayerPos;
+    [SerializeField] private int price;
+    [SerializeField] private int weaponDamage;
+    [SerializeField] private float playerWeaponAttackCooldown;
+    [SerializeField] private string description;
+ 
+    public override void Apply(GameObject player)
+    {
+        Attack playerAttack = player.GetComponentInParent(typeof(Attack)) as Attack;
+        if (playerAttack != null)
+        {
+            playerAttack.SetDamage(playerAttack.GetDamage() + weaponDamage);
+            playerAttack.SetWeaponAnimation(weaponAnimationLayerPos);
+            playerAttack.SetAttackCooldown(playerWeaponAttackCooldown);
+        }
+    }
+
+    public override int GetPrice()
+    {
+        return price;
+    }
+
+    public override string GetDescription()
+    {
+        return description;
+    }
+}

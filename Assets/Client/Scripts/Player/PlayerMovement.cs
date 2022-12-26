@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     [SerializeField] private float runSpeed;
     [SerializeField] private Animator animator;
+    [SerializeField] private Joystick joystick;
 
     private GameManager gameManager;
 
@@ -24,11 +24,11 @@ public class PlayerMovement : MonoBehaviour
         return runSpeed;
     }
 
-
     void Start()
     {
         controller = GetComponent<PlayerController>();
         gameManager = GameObject.FindGameObjectWithTag("Utils").GetComponent<GameManager>();
+        runSpeed = DataHolder.playerRunSpeed;
     }
 
     void Update()
@@ -39,25 +39,39 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("HorizontalMove", 0);
             return;
         }
-        
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        animator.SetFloat("HorizontalMove", Mathf.Abs(horizontalMove));
-        if (Input.GetButtonDown("Jump"))
+
+        if (joystick.Horizontal >= 0.2f)
         {
-            jump = true;
+            horizontalMove = runSpeed;
         }
-        if (Input.GetButtonDown("Crouch"))
+        else if (joystick.Horizontal <= -0.2f)
+        {
+            horizontalMove = -runSpeed;
+        }
+        else
+        {
+            horizontalMove = 0;
+        }
+        animator.SetFloat("HorizontalMove", Mathf.Abs(horizontalMove));
+
+        float verticalMove = joystick.Vertical;
+
+        if (verticalMove <= -0.5f)
         {
             crouch = true;
         }
-        else if (Input.GetButtonUp("Crouch"))
+        else
         {
-            crouch = false;
+            crouch = false; 
         }
-        if (Input.GetButtonDown("Dash"))
-        {
-            dash = true;
-        }
+    }
+    public void MakeDash()
+    {
+        dash = true;
+    }
+    public void MakeJump()
+    {
+        jump = true;
     }
     void FixedUpdate()
     {
@@ -66,4 +80,3 @@ public class PlayerMovement : MonoBehaviour
         dash = false;
     }
 }
-
