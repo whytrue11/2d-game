@@ -38,7 +38,7 @@ public class EnemyPathFinderController : EnemyController
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
-
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         InvokeRepeating("UpdatePath", 0f, pathUpdateSeconds);
     }
 
@@ -152,7 +152,7 @@ public class EnemyPathFinderController : EnemyController
             currentWaypoint = 0;
         }
     }
-    private void OnTriggerEnter2D(Collider2D trig)
+    private void OnTriggerStay2D(Collider2D trig)
     {
         if (trig.gameObject.CompareTag("Player"))
         {
@@ -163,6 +163,7 @@ public class EnemyPathFinderController : EnemyController
     {
         if (cooling)
         {
+            Cooldown();
             return;
         }
         timer = intTimer;

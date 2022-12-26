@@ -11,6 +11,7 @@ TagManager:
   - EnemyPatrol
   - EnemyPathFinder
   - EnemyPatrolZone
+  - Boss
   layers:
   - Default
   - TransparentFX
