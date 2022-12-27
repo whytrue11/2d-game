@@ -31,14 +31,35 @@ public class PowerUp : MonoBehaviour
                 this.playerController = (PlayerController)collision.GetComponentInParent(typeof(PlayerController));
                 this.playerController.NextToTheBuff(this);
                 player = collision.gameObject;
+                if(!GetComponentInParent<Shop>().getEnemiesNearby())
+                {
+                    descriptionText.text = buff.GetBuffDescription();
+                    descriptionText.fontSize = 2.8f;
+                    pickUpButton.SetActive(true);
+                    attackButton.SetActive(false);
+                    pickUpButton.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                }
+            }
+        }
+    }
+
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+
+            if (!GetComponentInParent<Shop>().getEnemiesNearby())
+            {
                 descriptionText.text = buff.GetBuffDescription();
                 descriptionText.fontSize = 2.8f;
                 pickUpButton.SetActive(true);
                 attackButton.SetActive(false);
                 pickUpButton.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
             }
+
         }
     }
+
     public void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))

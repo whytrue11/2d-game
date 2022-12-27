@@ -11,6 +11,7 @@ public class Shop : MonoBehaviour
     [SerializeField] private List<Sprite> weaponSprites;
 
     private GameManager gameManager;
+    private bool enemiesNearby = false;
 
     private void Start()
     {
@@ -25,6 +26,28 @@ public class Shop : MonoBehaviour
     {
         gameManager.RemoveCoins(coins);
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Contains("Enemy"))
+        {
+            enemiesNearby = true;
+        }
+            
+    }
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Contains("Enemy"))
+        {
+            enemiesNearby = false;
+        } 
+    }
+
+    public bool getEnemiesNearby()
+    {
+        return enemiesNearby;
+    }
+
+
     public Buff GetBuff()
     {
         if(DataHolder.playerDoubleJumpBuff)

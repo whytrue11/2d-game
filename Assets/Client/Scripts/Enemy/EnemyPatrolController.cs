@@ -73,6 +73,7 @@ public class EnemyPatrolController : EnemyController
         if (enemyHealth.GetHealth() <= 0)
         {
             Debug.Log("Enemy death");
+            FindObjectOfType<GameManager>().AddCoins(1);
             Destroy(gameObject);
         }
     }

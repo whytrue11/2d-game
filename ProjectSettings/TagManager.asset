@@ -14,6 +14,7 @@ TagManager:
   - Boss
   - AttackButton
   - PickUpButton
+  - PlayerHead
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Linq;
 using Pathfinding;
 using UnityEngine;
@@ -6,36 +6,38 @@ using Random = System.Random;
 
 public class BossController : EnemyController
 {
-    [Header("Pathfinding")] public Transform target;
-    public float activateDistance = 100f;
-    public float pathUpdateSeconds = 0.5f;
+    [Header("Pathfinding")]
+    [SerializeField] private float activateDistance = 100f;
+    [SerializeField] private float pathUpdateSeconds = 0.5f;
+    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private Transform groundCheck;
 
-    [Header("Physics")] public float speed = 200f;
-    public float nextWaypointDistance = 100f;
-    public float jumpNodeHeightRequirement = 0.8f;
-    public float jumpModifier = 0.3f;
-    public float jumpCheckOffset = 0.1f;
+    [Header("Physics")]
+    [SerializeField] private float speed = 200f;
+    [SerializeField] private float nextWaypointDistance = 100f;
+    [SerializeField] private float jumpNodeHeightRequirement = 0.8f;
+    [SerializeField] private float jumpForce = 6.5f;
 
-    [Header("Custom Behavior")] public bool followEnabled = true;
-    public bool jumpEnabled = true;
-    public bool directionLookEnabled = true;
 
-    private Path path;
-    private int currentWaypoint = 0;
-    bool isGrounded;
-    Seeker seeker;
-    Rigidbody2D rb;
-    public float timer;
-    private float intTimer;
-    
-    private bool cooling;
-
-    // [SerializeField] private LayerMask whatIsGround; 
-    // [SerializeField] private Transform groundCheck;     
-    const float groundedRadius = .9f;
+    [Header("Custom Behavior")]
+    [SerializeField] private bool followEnabled = true;
+    [SerializeField] private bool jumpEnabled = true;
+    [SerializeField] private bool directionLookEnabled = true;
     [SerializeField] private Health enemyHealth;
     [SerializeField] private int damage;
+    [SerializeField] private float attackCooldown;
+    [SerializeField] Animator animator;
 
+    private Transform target;
+    private bool canAttack = true;
+    private Path path;
+    private int currentWaypoint = 0;
+    private bool grounded;
+    private Seeker seeker;
+    private Rigidbody2D rb;
+
+    private const float groundedRadius = .2f;
+  
     public Transform bulletPos;
     public GameObject bulletPrefab;
     public float bulletForce = 2f;
@@ -43,6 +45,7 @@ public class BossController : EnemyController
     private int[] attacks;
     private int currentAttack;
     private int countOfAttacks = 10;
+
     public void Start()
     {
         int Min = 0;
@@ -57,13 +60,7 @@ public class BossController : EnemyController
         rb = GetComponent<Rigidbody2D>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         InvokeRepeating("UpdatePath", 0f, pathUpdateSeconds);
-        attacks.ToList().ForEach(i => Debug.Log(i));
-        
-    }
-
-    public void Awake()
-    {
-        intTimer = timer;
+        attacks.ToList().ForEach(i => Debug.Log(i)); 
     }
 
     public override void TakeDamage(int damage)
@@ -72,6 +69,7 @@ public class BossController : EnemyController
         if (enemyHealth.GetHealth() <= 0)
         {
             Debug.Log("Enemy death");
+            FindObjectOfType<GameManager>().AddCoins(50);
             Destroy(gameObject);
         }
     }
@@ -105,36 +103,39 @@ public class BossController : EnemyController
             return;
         }
 
-        // See if colliding with anything
-        // The player is grounded if a circlecast to the groundCheck position hits anything designated as ground
-        // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        // Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
-        // for (int i = 0; i < colliders.Length; i++)
-        // {
-        //     if (colliders[i].gameObject != gameObject)
-        //     {
-        //         isGrounded = true;
-        //     }
-        // }
-        Vector3 startOffset = transform.position -
-                              new Vector3(0f, GetComponent<Collider2D>().bounds.extents.y + jumpCheckOffset);
-        isGrounded = Physics2D.Raycast(startOffset, -Vector3.up, 0.05f);
-        Debug.Log(isGrounded);
+        bool wasgrounded = grounded;
+        grounded = false;
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject != gameObject)
+            {
+                grounded = true;
+                if (!wasgrounded)
+                {
+                    animator.SetBool("Jump", false);
+                }
+            }
+        }
+
+
         // Direction Calculation
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * (speed * Time.deltaTime);
 
         // Jump
-        if (jumpEnabled && isGrounded)
+        if (jumpEnabled && grounded)
         {
             if (direction.y > jumpNodeHeightRequirement)
             {
-                rb.AddForce(Vector2.up * (speed * jumpModifier));
+                rb.velocity = Vector2.up * jumpForce;
+                animator.SetBool("Jump", true);
             }
         }
 
         // Movement
-        rb.AddForce(force);
+        rb.AddForce(Vector2.right * force);
 
         // Next Waypoint
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
@@ -181,19 +182,16 @@ public class BossController : EnemyController
     {
         if (trig.gameObject.CompareTag("Player"))
         {
-            Attack(trig);
+            if (canAttack)
+            {
+                StartCoroutine(Attack(trig));
+            }
         }
     }
 
-    private void Attack(Collider2D trig)
+    private IEnumerator Attack(Collider2D trig)
     {
-        if (cooling)
-        {
-            Cooldown();
-            return;
-        }
-
-        timer = intTimer;
+        canAttack = false;
         Debug.Log("Meet with Player");
         if(attacks.Length <= currentAttack)
         {
@@ -204,21 +202,21 @@ public class BossController : EnemyController
         if (attack == 0)
         {
            // Close attack
-             Debug.Log("CLOSE ATTACK");
-             var controller = trig.gameObject.GetComponentInParent<PlayerController>();
-             controller.PlayerDmg(damage); 
+            Debug.Log("CLOSE ATTACK");
+            var controller = trig.gameObject.GetComponentInParent<PlayerController>();
+            animator.SetTrigger("AttackMelee");
+            controller.PlayerDmg(damage); 
         }
         else
         {
             //distant attack
             Debug.Log("DISTANT ATTACK");
+            animator.SetTrigger("AttackRange");
             Shoot();    
         }
-
+        yield return new WaitForSeconds(attackCooldown);
         currentAttack++;
-        
-        
-        cooling = true;
+        canAttack = true;
     }
 
     void Shoot()
@@ -235,15 +233,4 @@ public class BossController : EnemyController
         }
     }
 
-
-    private void Cooldown()
-    {
-        timer -= Time.fixedDeltaTime;
-
-        if (timer <= 0 && cooling)
-        {
-            cooling = false;
-            timer = intTimer;
-        }
-    }
 }

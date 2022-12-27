@@ -15,7 +15,7 @@ public class EnemyPathFinderController : EnemyController
     [SerializeField] private float nextWaypointDistance = 100f;
     [SerializeField] private float jumpNodeHeightRequirement = 0.8f;
     [SerializeField] private float jumpForce = 6.5f;
-    [SerializeField] private float jumpCheckOffset = 0.1f;
+
 
     [Header("Custom Behavior")]
     [SerializeField] private bool followEnabled = true;
@@ -50,6 +50,7 @@ public class EnemyPathFinderController : EnemyController
         if (enemyHealth.GetHealth() <= 0)
         {
             Debug.Log("Enemy death");
+            FindObjectOfType<GameManager>().AddCoins(3);
             Destroy(gameObject);
         }
     }
@@ -111,11 +112,13 @@ public class EnemyPathFinderController : EnemyController
         {
             if (direction.y > jumpNodeHeightRequirement)
             {
+             
                 rb.velocity = Vector2.up * jumpForce;
                 animator.SetBool("Jump", true);
             }
         }
 
+        
         // Movement
         rb.AddForce(Vector2.right * force);
 

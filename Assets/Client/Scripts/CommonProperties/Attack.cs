@@ -18,13 +18,13 @@ public class Attack : MonoBehaviour
         canAttack = false;
         animator.SetTrigger("Attack");
         Debug.Log("Attack");    
-        Collider2D[] coll = Physics2D.OverlapBoxAll( attackLocation.position, attackRange, enemies );
-
+        Collider2D[] coll = Physics2D.OverlapBoxAll( attackLocation.position, attackRange, enemies);
+        EnemyController enemyController = null;
         for (int i = 0; i < coll.Length; i++)
         {
-            if (coll[i].gameObject.tag.Contains("Enemy"))
+            if (coll[i].gameObject.tag.Contains("Enemy") || coll[i].gameObject.tag.Contains("Boss"))
             {
-                EnemyController enemyController = null;
+                
                 switch (coll[i].gameObject.tag)
                 {
                     case "EnemyPatrol":
@@ -36,6 +36,9 @@ public class Attack : MonoBehaviour
                     case "EnemyPatrolZone":
                         enemyController = coll[i].gameObject.GetComponent<EnemyPatrolZoneController>();
                         break;
+                    case "Boss":
+                        enemyController = coll[i].gameObject.GetComponent<BossController>();
+                        break;
                 }
                         
                 //EnemyPatrolController enemyController = coll[i].gameObject.GetComponent<EnemyPatrolController>();
@@ -43,8 +46,12 @@ public class Attack : MonoBehaviour
                 Debug.Log("Attack location" + attackLocation.position);
                 Debug.Log("Attack range" + attackRange);
                         
-                enemyController.TakeDamage(damage);
+               
             }
+        }
+        if(enemyController!= null)
+        {
+            enemyController.TakeDamage(damage);
         }
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
