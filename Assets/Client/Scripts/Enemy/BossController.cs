@@ -70,6 +70,10 @@ public class BossController : EnemyController
         {
             Debug.Log("Enemy death");
             FindObjectOfType<GameManager>().AddCoins(50);
+            
+            GameManager gameManager = GameObject.FindGameObjectWithTag("Utils").GetComponent<GameManager>();
+            gameManager.End(false);
+            
             Destroy(gameObject);
         }
     }
