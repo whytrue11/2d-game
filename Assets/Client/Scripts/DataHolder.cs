@@ -13,11 +13,27 @@ public static class DataHolder
 
     public static float musicVolume;
 
-    public static bool playerDoubleJumpBuff = true;
-    public static int playerDamage = 100;
-    public static int playerWeaponAnimation = 0;
-    public static float playerWeaponAttackCooldown = 0.5f;
-    public static float playerRunSpeed = 15;
-    public static int playerCurrentHealth = 100;
-    public static int playerMaxHealth = 100;
+    public static bool playerDoubleJumpBuff;
+    public static int playerDamage;
+    public static int playerWeaponAnimation;
+    public static float playerWeaponAttackCooldown;
+    public static float playerRunSpeed;
+    public static int playerCurrentHealth;
+    public static int playerMaxHealth;
+
+    static DataHolder()
+    {
+        SetDefault();
+    }
+
+    public static void SetDefault()
+    {
+        playerDoubleJumpBuff = false;
+        playerDamage = 50;
+        playerWeaponAnimation = 0;
+        playerWeaponAttackCooldown = 0.5f;
+        playerRunSpeed = 15;
+        playerCurrentHealth = 100;
+        playerMaxHealth = 100;
+    }
 }
