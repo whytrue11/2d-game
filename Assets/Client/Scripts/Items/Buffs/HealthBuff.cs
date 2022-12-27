@@ -12,6 +12,8 @@ public class HealthBuff : PowerUpEffect
         Health playerHealth = player.GetComponentInParent(typeof(Health)) as Health;
         playerHealth.SetMaxHealth((int)(playerHealth.GetMaxHealth() * multiplier));
         playerHealth.SetHealth((int)(playerHealth.GetHealth() * multiplier));
+        PlayerController playerController = player.GetComponentInParent(typeof(PlayerController)) as PlayerController;
+        playerController.HealAnimation();
     }
     public override int GetPrice()
     {

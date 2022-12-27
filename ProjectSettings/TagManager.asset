@@ -12,6 +12,8 @@ TagManager:
   - EnemyPathFinder
   - EnemyPatrolZone
   - Boss
+  - AttackButton
+  - PickUpButton
   layers:
   - Default
   - TransparentFX

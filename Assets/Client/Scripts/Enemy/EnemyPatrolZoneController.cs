@@ -2,31 +2,30 @@ using UnityEngine;
 
 public class EnemyPatrolZoneController : EnemyController
 {
-    public Transform rayCast;
-    public LayerMask raycastMask;
-    public float rayCastLength;
-    public float attackDistance;
-    public float moveSpeed;
-    public float timer;
-    public Transform leftLimit;
-    public Transform rightLimit;
+    [SerializeField] private Transform rayCast;
+    [SerializeField] private LayerMask raycastMask;
+    [SerializeField] private float rayCastLength;
+    [SerializeField] private float attackDistance;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float timer;
+    [SerializeField] private Transform leftLimit;
+    [SerializeField] private Transform rightLimit;
+    [SerializeField] private Health enemyHealth;
+    [SerializeField] private int damage;
+    [SerializeField] private Animator animator;
     private bool attackMode;
     private bool cooling;
     private float distance;
-    [SerializeField] private Health enemyHealth;
-
     private RaycastHit2D hit;
     private bool inRange;
     private float intTimer;
     private Transform target;
-    [SerializeField] private int damage; 
-
+   
     private void Awake()
     {
         SelectTarget();
         intTimer = timer;
     }
-
     private void FixedUpdate()
     {
         if (!attackMode) Move();
@@ -88,7 +87,9 @@ public class EnemyPatrolZoneController : EnemyController
         Debug.Log(cooling);
         Debug.Log("Meet with Player");
         var controller = target.gameObject.GetComponentInParent<PlayerController>();
+        animator.SetTrigger("Attack");
         controller.PlayerDmg(damage);
+
         cooling = true;
     }
 

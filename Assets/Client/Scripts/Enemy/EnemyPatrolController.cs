@@ -3,23 +3,20 @@ using UnityEngine;
 
 public class EnemyPatrolController : EnemyController
 {
-    public List<Transform> points;
+    [SerializeField] private int damage;
+    [SerializeField] private Health enemyHealth;
+    [SerializeField] private Animator animator;
 
+    [SerializeField] private List<Transform> points;
     //The int value for next point index
-    public int nextID = 1;
+    [SerializeField] private int nextID = 1;
 
     //Speed of movement or flying
-    public float speed = 2;
-    [SerializeField] public int damage;
-    [SerializeField] private Health enemyHealth;
-    private RaycastHit2D hit;
-
-    private RaycastHit2D hitPlayer;
+    [SerializeField] private float speed = 2;
 
     //The value of that applies to ID for changing
     private int idChangeValue = 1;
     
-
     private void FixedUpdate()
     {
         MoveToNextPoint();
@@ -37,6 +34,7 @@ public class EnemyPatrolController : EnemyController
             //Apply the change on the nextID
             nextID += idChangeValue;
             Debug.Log("Meet with Player");
+            animator.SetTrigger("Attack");
             var controller = collision.gameObject.GetComponentInParent<PlayerController>();
             controller.PlayerDmg(damage);
         }

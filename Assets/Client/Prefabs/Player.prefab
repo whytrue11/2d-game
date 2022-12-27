@@ -210,7 +210,7 @@ MonoBehaviour:
   canDoubleJump: 0
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 183
+    m_Bits: 128
   groundCheck: {fileID: 1569873768454685593}
   ceilingCheck: {fileID: 1569873768013357445}
   crouchDisableCollider: {fileID: 1569873768159497969}
@@ -298,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19c6e8e5c12b4eea8db7e86013f0c36d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 50
   animator: {fileID: 1569873767380147875}
   attackCooldown: 0.5
   attackLocation: {fileID: 1569873767660027330}
@@ -426,7 +426,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569873768159497968}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.053, y: 0, z: 0}
+  m_LocalPosition: {x: -0.052, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

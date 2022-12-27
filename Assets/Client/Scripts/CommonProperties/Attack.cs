@@ -87,6 +87,5 @@ public class Attack : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(attackLocation.position, attackRange);
     }
-        
-        
+      
 }

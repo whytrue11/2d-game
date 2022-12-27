@@ -9,7 +9,8 @@ public class HealBuff : PowerUpEffect
     public override void Apply(GameObject player)
     {
         Health playerHealth = player.GetComponentInParent(typeof(Health)) as Health;
-      
+        PlayerController playerController = player.GetComponentInParent(typeof(PlayerController)) as PlayerController;
+        playerController.HealAnimation();
         playerHealth.SetHealth(playerHealth.GetHealth() + health);
     }
     public override int GetPrice()

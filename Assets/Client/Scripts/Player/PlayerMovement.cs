@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         runSpeed = DataHolder.playerRunSpeed;
     }
 
-    /*void Update()
+   /* void Update()
     {
         if (gameManager.pause)
         {
@@ -62,10 +62,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            crouch = false; 
+            crouch = false;
         }
     }*/
-    
+
     //Keyboard (temp)
     void Update()
     {

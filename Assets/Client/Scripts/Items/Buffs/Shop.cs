@@ -12,7 +12,7 @@ public class Shop : MonoBehaviour
 
     private GameManager gameManager;
 
-    private void Awake()
+    private void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("Utils").GetComponent<GameManager>();
     }

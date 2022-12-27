@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 
@@ -6,17 +7,19 @@ public class ChangeWeapon : MonoBehaviour
 {
     [SerializeField] private TMP_Text priceText;
     [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] GameObject pickUpButton;
-    [SerializeField] GameObject attackButton;
+    private GameObject attackButton;
+    private GameObject pickUpButton;
     private PlayerController playerController;
     private GameObject player;
     private Weapon weapon;
 
-    public void Awake()
+    public void Start()
     {
         weapon = GetComponentInParent<Shop>().GetWeapon();
         GetComponent<SpriteRenderer>().sprite = weapon.GetWeaponSprite();
         priceText.text = weapon.GetWeapon().GetPrice().ToString();
+        attackButton = GameObject.FindGameObjectWithTag("AttackButton");
+        pickUpButton = GameObject.FindGameObjectWithTag("PickUpButton");
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,9 +32,10 @@ public class ChangeWeapon : MonoBehaviour
                 this.playerController.NextToTheWeapon(this);
                 player = collision.gameObject;
                 descriptionText.text = weapon.GetWeaponDescription();
-                descriptionText.fontSize = 6.5f;
+                descriptionText.fontSize = 2.8f;
                 pickUpButton.SetActive(true);
                 attackButton.SetActive(false);
+                pickUpButton.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
             }
         }
     }

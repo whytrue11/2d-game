@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
-using System.Threading;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -301,9 +300,10 @@ public class PlayerController : MonoBehaviour
 	
 	public void PlayerDmg(int dmg)
 	{
-		if (!invulnerable)
+		if (!invulnerable && !isDead)
 		{
 			playerHealth.DmgUnit(dmg);
+			animator.SetTrigger("Hurt");
 		}
 		if (playerHealth.GetHealth() <= 0 && !isDead)
 		{
@@ -311,9 +311,15 @@ public class PlayerController : MonoBehaviour
 			Die();
 		}
 	}
-	
+
+	public void HealAnimation()
+	{
+		animator.SetTrigger("Heal");
+	}
+
 	private void Die()
 	{
+		animator.SetBool("Death", true);
 		deathMenu.SetActive(true);
 		gameManager.pause = true;
 		gameManager.End(true);
