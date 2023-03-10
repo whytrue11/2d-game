@@ -29,7 +29,7 @@ public static class Timer
 
     public static void End(bool pause)
     {
-        if (pause)
+        if (!pause)
         {
             DataHolder.currentScore.time = DataHolder.currentScore.time.Add(DateTime.Now.Subtract(DataHolder.startTime));
         }

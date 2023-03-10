@@ -71,14 +71,6 @@ public class PlayerController : MonoBehaviour
 		InitPlayerParams();
 	}
 
-	private void OnDisable()
-	{
-		DataHolder.playerCurrentHealth = playerHealth.GetHealth();
-		DataHolder.playerMaxHealth = playerHealth.GetMaxHealth();
-		DataHolder.playerDamage = playerAttack.GetDamage();
-		DataHolder.playerDoubleJumpBuff = canDoubleJump;
-	}
-
 	private void InitPlayerParams()
 	{
 		playerHealth.SetHealth(DataHolder.playerCurrentHealth);
@@ -323,6 +315,14 @@ public class PlayerController : MonoBehaviour
 	public void HealAnimation()
 	{
 		animator.SetTrigger("Heal");
+	}
+
+	public void ChangeLevel()
+	{
+		DataHolder.playerCurrentHealth = playerHealth.GetHealth();
+		DataHolder.playerMaxHealth = playerHealth.GetMaxHealth();
+		DataHolder.playerDamage = playerAttack.GetDamage();
+		DataHolder.playerDoubleJumpBuff = canDoubleJump;
 	}
 
 	private void Die()

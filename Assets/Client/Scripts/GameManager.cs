@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
     public void Begin()
     {
         Timer.Begin();
-        DataHolder.SetDefault();
     }
 
     public void Pause()
@@ -62,6 +61,7 @@ public class GameManager : MonoBehaviour
             titre.SetActive(true);
             StartCoroutine("FadeTitre");
         }
+        DataHolder.SetDefault();
         LeavePartCoins();
     }
 
