@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,7 +57,7 @@ public class Health : MonoBehaviour
 
     public void DiplayHPBar()
     {
-        if (!hpBar.IsUnityNull())
+        if (hpBar != null)
         {
             hpBar.fillAmount = (float) health / maxHealth;
             Debug.Log("HPBar updated " + (float) health / maxHealth);

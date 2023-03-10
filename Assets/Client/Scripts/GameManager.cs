@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -100,7 +99,7 @@ public class GameManager : MonoBehaviour
     
     private void DisplayCoins()
     {
-        if (!coinsText.IsUnityNull())
+        if (coinsText != null)
         {
             coinsText.text = (DataHolder.coins.GetCoins() + DataHolder.localCoins.GetCoins()).ToString();
         }

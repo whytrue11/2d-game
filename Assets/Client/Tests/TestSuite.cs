@@ -28,7 +28,7 @@ public class TestSuite
         enemyGameObject = GameObject.Instantiate(enemyGameObject);
         float startPosX = enemyGameObject.transform.GetChild(0).transform.position.x;
 
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(0.1f);
         
         Assert.AreNotEqual(startPosX, enemyGameObject.transform.GetChild(0).transform.position.x);
     }
