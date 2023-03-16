@@ -39,8 +39,16 @@ public class ChangeWeapon : MonoBehaviour
                     attackButton.SetActive(false);
                     pickUpButton.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                 }
+                else
+                {
+                    pickUpButton.SetActive(false);
+                    attackButton.SetActive(true);
+                }
+
             }
+
         }
+     
     }
 
     public void OnTriggerStay2D(Collider2D collision)
@@ -56,7 +64,12 @@ public class ChangeWeapon : MonoBehaviour
                 attackButton.SetActive(false);
                 pickUpButton.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
             }
-            
+            else
+            {
+                pickUpButton.SetActive(false);
+                attackButton.SetActive(true);
+            }
+    
         }
     }
 

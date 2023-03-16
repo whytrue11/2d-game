@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2587714821024210787
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2587714821024210786}
+  - component: {fileID: 2587714821024210796}
+  - component: {fileID: 2587714821024210797}
+  m_Layer: 0
+  m_Name: Utils
+  m_TagString: Utils
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2587714821024210786
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2587714821024210787}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 250.05515, y: 173.79333, z: 2.262758}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2587714821024210796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2587714821024210787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd51d94552ebd9e43930eda59dfbde2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinsText: {fileID: 0}
+  rooms:
+  - {fileID: 9097013564583293670, guid: b2720a70a6cc64f0f9c0d9f3c0815e98, type: 3}
+  - {fileID: 9097013564583293670, guid: 87ecc4c5addc547428016d5205681c97, type: 3}
+  - {fileID: 9097013564583293670, guid: a08086d8b207e4531bd5f9d2ffb0ec85, type: 3}
+  endRoom: {fileID: 0}
+  roomsSpawnLimit: 0
+  titre: {fileID: 0}
+  titreTitleText: {fileID: 0}
+  titreCreatorsNamesText: {fileID: 0}
+  continueButtonText: {fileID: 0}
+  scoreText: {fileID: 0}
+  roomsSpawned: 0
+  pause: 0
+--- !u!114 &2587714821024210797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2587714821024210787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b32fe5b506322341a6e76be43e1d6d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

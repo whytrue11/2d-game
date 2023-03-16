@@ -13,6 +13,16 @@ public class PowerUp : MonoBehaviour
     private GameObject player;
     private Buff buff;
 
+    public TMP_Text GetPriceText()
+    {
+        return priceText;
+    }
+
+    public TMP_Text GetDescriptionText()
+    {
+        return descriptionText;
+    }
+
     public void Start()
     {
         buff = GetComponentInParent<Shop>().GetBuff();
@@ -39,6 +49,12 @@ public class PowerUp : MonoBehaviour
                     attackButton.SetActive(false);
                     pickUpButton.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                 }
+                else
+                {
+                    pickUpButton.SetActive(false);
+                    attackButton.SetActive(true);
+                }
+
             }
         }
     }
@@ -56,7 +72,11 @@ public class PowerUp : MonoBehaviour
                 attackButton.SetActive(false);
                 pickUpButton.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
             }
-
+            else
+            {
+                pickUpButton.SetActive(false);
+                attackButton.SetActive(true);
+            }
         }
     }
 

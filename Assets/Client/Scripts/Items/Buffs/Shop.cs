@@ -31,15 +31,14 @@ public class Shop : MonoBehaviour
         if (collision.gameObject.tag.Contains("Enemy"))
         {
             enemiesNearby = true;
-        }
-            
+        }       
     }
     public void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag.Contains("Enemy"))
         {
             enemiesNearby = false;
-        } 
+        }
     }
 
     public bool getEnemiesNearby()
