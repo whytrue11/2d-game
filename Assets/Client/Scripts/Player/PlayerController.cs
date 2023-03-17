@@ -329,7 +329,6 @@ public class PlayerController : MonoBehaviour
 	{
 		animator.SetBool("Death", true);
 		deathMenu.SetActive(true);
-		gameManager.pause = true;
 		gameManager.End(true);
 
 		StartCoroutine("FadeDeathScreen");

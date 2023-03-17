@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     public bool pause;
 
-    private double coinPercent = (double) 2 / 3;
+    private const double coinPercent = (double) 2 / 3;
 
     private void Start()
     {
