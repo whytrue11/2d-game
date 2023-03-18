@@ -37,7 +37,7 @@ public class CoinPickerTests
         yield return new WaitForSeconds(0.1f);
 
         Assert.AreEqual(expectedLocalCoins, DataHolder.localCoins.GetCoins());
-        
+        UnityEngine.Assertions.Assert.IsNull(coin);
         Object.Destroy(coin);
     }
     

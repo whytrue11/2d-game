@@ -61,13 +61,22 @@ public class Saves : MonoBehaviour
 
     public void Load()
     {
+        SaveData data = null;
         if (File.Exists(path))
         {
-            SaveData data = JsonConvert.DeserializeObject<SaveData>(
-                CryptoEngine.Decrypt(File.ReadAllText(path), CryptoEngine.key));
-            //SaveData data = JsonConvert.DeserializeObject<SaveData>(File.ReadAllText(path));
+            try
+            {
+                data = JsonConvert.DeserializeObject<SaveData>(
+                    CryptoEngine.Decrypt(File.ReadAllText(path), CryptoEngine.key));
+                //SaveData data = JsonConvert.DeserializeObject<SaveData>(File.ReadAllText(path));
+            }
+            catch (CryptographicException e)
+            {
+                Debug.Log("Exception when decrypting a save file");
+            }
             if (data == null)
             {
+                SetDefaultValues();
                 return;
             }
 
@@ -79,13 +88,18 @@ public class Saves : MonoBehaviour
         }
         else
         {
-            DataHolder.coins = new Coin(0);
-            DataHolder.scores = new List<Timer.Score>();
-            DataHolder.musicVolume = 0.3f;
-            
-            DataHolder.localCoins = new Coin(0);
+            SetDefaultValues();
         }
         Debug.Log("Load save success!");
+    }
+
+    private static void SetDefaultValues()
+    {
+        DataHolder.coins = new Coin(0);
+        DataHolder.scores = new List<Timer.Score>();
+        DataHolder.musicVolume = 0.3f;
+            
+        DataHolder.localCoins = new Coin(0);
     }
 
     private class CryptoEngine

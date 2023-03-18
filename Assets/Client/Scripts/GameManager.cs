@@ -56,9 +56,12 @@ public class GameManager : MonoBehaviour
         {
             Timer.End(pause);
 
-            scoreText.text = scoreText.text + " " + DataHolder.scores[DataHolder.scores.Count - 1].time.ToString(@"hh\:mm\:ss");
-            titre.SetActive(true);
-            StartCoroutine("FadeTitre");
+            if (titre != null)
+            {
+                scoreText.text = scoreText.text + " " + DataHolder.scores[DataHolder.scores.Count - 1].time.ToString(@"hh\:mm\:ss");
+                titre.SetActive(true);
+                StartCoroutine("FadeTitre");
+            }
         }
         DataHolder.SetDefault();
         LeavePartCoins();
