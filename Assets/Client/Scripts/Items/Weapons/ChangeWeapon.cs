@@ -90,7 +90,7 @@ public class ChangeWeapon : MonoBehaviour
     public IEnumerator Apply()
     {
         Shop shop = GetComponentInParent(typeof(Shop)) as Shop;
-        if(shop != null)
+        if(shop != null && !shop.getEnemiesNearby())
         {
             if (shop.GetCoins() >= weapon.GetWeapon().GetPrice())
             {

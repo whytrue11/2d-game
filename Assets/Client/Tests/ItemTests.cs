@@ -107,7 +107,7 @@ public class ItemTests
         platform = GameObject.Instantiate(platform);
         GameObject player = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
         player = GameObject.Instantiate(player);
-        GameObject shop = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Shop.prefab");
+        GameObject shop = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestShop.prefab");
         shop = GameObject.Instantiate(shop);
 
         DataHolder.localCoins = new Coin(1000);
@@ -140,6 +140,52 @@ public class ItemTests
         Object.Destroy(player);
         Object.Destroy(platform);
         Object.Destroy(shop);
-    }  
+    }
+
+    [UnityTest]
+    public IEnumerator PlayerCantBuyInShop()
+    {
+        GameObject platform = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Platform1.prefab");
+        platform = GameObject.Instantiate(platform);
+        GameObject player = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
+        player = GameObject.Instantiate(player);
+        GameObject shop = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Shop.prefab");
+        shop = GameObject.Instantiate(shop);
+
+        DataHolder.localCoins = new Coin(1000);
+        platform.transform.position = player.transform.position - new Vector3(0.0f, 1.0f, 0.0f);
+
+        yield return new WaitForSeconds(1.0f);
+        GameObject enemy = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestEnemyPatrolZone.prefab");
+        enemy = GameObject.Instantiate(enemy);
+        enemy.transform.position = player.transform.position;
+        shop.transform.position = player.transform.position;
+        shop.transform.position += new Vector3(0.667f, 0.0f, 0.0f);
+
+        yield return new WaitForSeconds(0.1f);
+        player.GetComponent<PlayerController>().PickUpItem();
+        shop.transform.position -= new Vector3(0.667f, 0.0f, 0.0f);
+
+        yield return new WaitForSeconds(0.1f);
+        player.GetComponent<PlayerController>().PickUpItem();
+        shop.transform.position -= new Vector3(1.431f, 0.0f, 0.0f);
+
+        yield return new WaitForSeconds(0.1f);
+        player.GetComponent<PlayerController>().PickUpItem();
+        shop.transform.position -= new Vector3(1.09f, 0.0f, 0.0f);
+
+        yield return new WaitForSeconds(0.1f);
+        player.GetComponent<PlayerController>().PickUpItem();
+
+        yield return new WaitForSeconds(0.1f);
+
+        Assert.AreEqual(shop.transform.childCount, 4);
+
+        DataHolder.localCoins = new Coin(0);
+        Object.Destroy(player);
+        Object.Destroy(platform);
+        Object.Destroy(shop);
+        Object.Destroy(enemy);
+    }
 
 }

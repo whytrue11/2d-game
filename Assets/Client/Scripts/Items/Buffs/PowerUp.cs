@@ -96,7 +96,7 @@ public class PowerUp : MonoBehaviour
     public IEnumerator Apply()
     {
         Shop shop = GetComponentInParent(typeof(Shop)) as Shop;
-        if(shop != null)
+        if(shop != null && !shop.getEnemiesNearby())
         {
             if (shop.GetCoins() >= buff.GetBuffEffect().GetPrice())
             {
