@@ -10,7 +10,7 @@ public class LevelChanger : MonoBehaviour
     {
         if (playerCollider.gameObject.CompareTag("Player"))
         {
-            playerCollider.gameObject.GetComponent<PlayerController>().ChangeLevel();
+            playerCollider.gameObject.GetComponentInParent<PlayerController>().ChangeLevel();
             SceneManager.LoadScene(sceneId);
         }
     }

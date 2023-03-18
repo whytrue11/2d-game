@@ -31,5 +31,6 @@ public class TestSuite
         yield return new WaitForSeconds(0.1f);
         
         Assert.AreNotEqual(startPosX, enemyGameObject.transform.GetChild(0).transform.position.x);
+        Object.Destroy(enemyGameObject);
     }
 }
