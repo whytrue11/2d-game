@@ -11,7 +11,7 @@ public class PlayerTests
     [SetUp]
     public void Setup()
     {
-        utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
+        GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
     }
 
@@ -123,24 +123,33 @@ public class PlayerTests
 
     [UnityTest]
     public IEnumerator PlayerNextToBuff()
-    {
+    { 
         GameObject player = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
         player = GameObject.Instantiate(player);
         GameObject shop = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Shop.prefab");
         shop = GameObject.Instantiate(shop);
+        GameObject platform = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Platform1.prefab");
+        platform = GameObject.Instantiate(platform);
+        platform.transform.position = player.transform.position;
+        platform.transform.position -= new Vector3(0.0f, 1.0f, 0.0f);
+        yield return new WaitForSeconds(1.0f);
 
-        player.transform.position = shop.transform.position;
+        shop.transform.position = player.transform.position;
 
-        yield return new WaitForSeconds(0.001f);
+        yield return new WaitForSeconds(0.1f);
 
         Assert.IsTrue(player.GetComponent<PlayerController>().GetNextToTheBuff());
 
+        yield return new WaitForSeconds(0.1f);
+
         Object.Destroy(shop);
 
-        yield return new WaitForSeconds(0.001f);
+        yield return new WaitForSeconds(0.1f);
 
         Assert.IsFalse(player.GetComponent<PlayerController>().GetNextToTheBuff());
         Object.Destroy(player);
+        Object.Destroy(shop);
+        Object.Destroy(platform);
     }
 
     [UnityTest]
@@ -150,19 +159,29 @@ public class PlayerTests
         player = GameObject.Instantiate(player);
         GameObject shop = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Shop.prefab");
         shop = GameObject.Instantiate(shop);
+        GameObject platform = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Platform1.prefab");
+        platform = GameObject.Instantiate(platform);
+        platform.transform.position = player.transform.position;
+        platform.transform.position -= new Vector3(0.0f, 1.0f, 0.0f);
+        yield return new WaitForSeconds(1.0f);
 
-        player.transform.position = shop.transform.position;
+        shop.transform.position = player.transform.position;
         shop.transform.position -= new Vector3(2.6f, 0.0f, 0.0f);
 
-        yield return new WaitForSeconds(0.001f);
+        yield return new WaitForSeconds(0.1f);
 
         Assert.IsTrue(player.GetComponent<PlayerController>().GetNextToTheWeapon());
-      
+
+        yield return new WaitForSeconds(0.1f);
+
         Object.Destroy(shop);
-        yield return new WaitForSeconds(0.001f);
+
+        yield return new WaitForSeconds(0.1f);
 
         Assert.IsFalse(player.GetComponent<PlayerController>().GetNextToTheWeapon());
         Object.Destroy(player);
+        Object.Destroy(shop);
+        Object.Destroy(platform);
     }
 
     [UnityTest]
@@ -178,7 +197,6 @@ public class PlayerTests
 
         Assert.AreEqual(health.GetHealth(), player.GetComponent<PlayerController>().GetPlayerHealth().GetHealth());
         Object.Destroy(player);
-
     }
 
     [UnityTest]
@@ -250,6 +268,36 @@ public class PlayerTests
         yield return new WaitForSeconds(0.1f);
 
         Assert.AreEqual(enemy.transform.GetChild(0).GetComponent<Health>().GetHealth(), health - dmg);
+
+        Object.Destroy(player);
+        Object.Destroy(platform);
+        Object.Destroy(enemy);
+    }
+
+    [UnityTest]
+    public IEnumerator PlayerAttackPathFinder()
+    {
+        GameObject platform = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Platform1.prefab");
+        platform = GameObject.Instantiate(platform);
+        GameObject player = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
+        player = GameObject.Instantiate(player);
+
+        platform.transform.position = player.transform.position - new Vector3(0.0f, 1.0f, 0.0f);
+
+        yield return new WaitForSeconds(0.1f);
+        GameObject enemy = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestEnemyPathFinder.prefab");
+        enemy = GameObject.Instantiate(enemy);
+        enemy.transform.position = player.transform.position;
+
+        yield return new WaitForSeconds(0.1f);
+        int dmg = 20;
+        int health = enemy.GetComponent<Health>().GetHealth();
+        player.GetComponent<Attack>().SetDamage(dmg);
+        player.GetComponent<PlayerController>().AttackEnemy();
+
+        yield return new WaitForSeconds(0.1f);
+
+        Assert.AreEqual(enemy.transform.GetComponent<Health>().GetHealth(), health - dmg);
 
         Object.Destroy(player);
         Object.Destroy(platform);
