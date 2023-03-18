@@ -4,6 +4,7 @@ public class Buff
 {
     private PowerUpEffect buff;
     private Sprite buffSprite;
+
     public Buff(PowerUpEffect buff, Sprite buffSprite)
     {
         this.buff = buff;

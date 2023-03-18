@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void AttackEnemy()
+	public void AttackEnemy()			 
 	{
 		if (playerAttack.GetCanAttack())
 		{
@@ -257,11 +257,24 @@ public class PlayerController : MonoBehaviour
 		nextToTheWeapon = false;
 		this.weapon = null;
 	}
+	public bool GetNextToTheWeapon()
+	{
+		return nextToTheWeapon;
+	}
+	public bool GetNextToTheBuff()
+	{
+		return nextToTheBuff;
+	}
+	public Health GetPlayerHealth()
+	{
+		return playerHealth;
+	}
 
-	public void setDoubleJump(bool doubleJump)
+	public void SetDoubleJump(bool doubleJump)
 	{
 		canDoubleJump = doubleJump;
 	}
+
 
 
 	private void Flip()

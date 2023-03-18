@@ -25,6 +25,18 @@ public class ItemTests
         Object.Destroy(shop);
     }
 
+    [Test]
+    public void ShopGetBuff()
+    {
+        Assert.AreNotEqual(string.IsNullOrEmpty(""), string.IsNullOrEmpty(shop.GetComponent<Shop>().GetBuff().GetBuffDescription()));
+    }
+
+    [Test]
+    public void ShopGetWeapon()
+    {
+        Assert.AreNotEqual(string.IsNullOrEmpty(""), string.IsNullOrEmpty(shop.GetComponent<Shop>().GetWeapon().GetWeaponDescription()));
+    }
+
 
     [UnityTest]
     public IEnumerator ShopCollisionWithEnemyPatrol()
@@ -43,15 +55,22 @@ public class ItemTests
     }
 
     [UnityTest]
-    public IEnumerator Shop()
+    public IEnumerator ShopCollisionWithEnemyPathFinder()
     {
+        GameObject player = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
+        player = GameObject.Instantiate(player);
+        GameObject enemy =
+           AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/EnemyPathFinder.prefab");
+        enemy = GameObject.Instantiate(enemy);
 
-        Debug.Log(shop.GetComponent<Shop>().GetCoins());
+        enemy.transform.position = shop.transform.position;
 
         yield return new WaitForSeconds(0.1f);
 
-        Assert.AreEqual(shop.GetComponent<Shop>().getEnemiesNearby(), false);
-    
+        Assert.AreEqual(shop.GetComponent<Shop>().getEnemiesNearby(), true);
+
+        Object.Destroy(enemy);
+        Object.Destroy(player);
     }
 
     [UnityTest]
