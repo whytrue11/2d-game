@@ -19,7 +19,15 @@ public class PlayerWeapon : PowerUpEffect
             playerAttack.SetAttackCooldown(playerWeaponAttackCooldown);
         }
     }
-
+    public override bool CanGetEffect(GameObject player)
+    {
+        Attack playerAttack = player.GetComponentInParent(typeof(Attack)) as Attack;
+        if (playerAttack != null)
+        {
+            return true;
+        }
+        return false;
+    }
     public override int GetPrice()
     {
         return price;

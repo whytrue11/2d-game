@@ -43,7 +43,7 @@ public class Health : MonoBehaviour
 
     public void HealUnit(int healAmount)
     {
-        if (health < maxHealth)
+        if (health + healAmount <= maxHealth)
         {
             health += healAmount;
         }
@@ -51,7 +51,6 @@ public class Health : MonoBehaviour
         {
             health = maxHealth;
         }
-
         DiplayHPBar();
     }
 

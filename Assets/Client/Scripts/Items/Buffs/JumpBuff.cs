@@ -13,6 +13,15 @@ public class JumpBuff : PowerUpEffect
             playerController.SetDoubleJump(true);       
         }
     }
+    public override bool CanGetEffect(GameObject player)
+    {
+        PlayerController playerController = player.GetComponentInParent(typeof(PlayerController)) as PlayerController;
+        if (playerController != null)
+        {
+            return (!playerController.GetDoubleJump());
+        }
+        return false;
+    }
     public override int GetPrice()
     {
         return price;

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
@@ -13,14 +12,13 @@ public class BossControllerTest
     {
         GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
-        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Boss.prefab");
-        enemyPatrol = GameObject.Instantiate(enemyPatrol);
-        BossController bossController = enemyPatrol.GetComponentInChildren<BossController>();
+        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestBoss.prefab");
         GameObject player =
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
         player = GameObject.Instantiate(player);
-        player.GetComponent<Attack>().SetDamage(0);
-        
+        enemyPatrol = GameObject.Instantiate(enemyPatrol);
+        BossController bossController = enemyPatrol.GetComponentInChildren<BossController>();
+
         int damage = 10;
         bossController.GetComponent<Health>().SetHealth(20);
         int currentHealth = bossController.GetComponent<Health>().GetHealth();
@@ -38,7 +36,7 @@ public class BossControllerTest
     {
         GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
-        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Boss.prefab");
+        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestBoss.prefab");
         enemyPatrol = GameObject.Instantiate(enemyPatrol);
         BossController bossController = enemyPatrol.GetComponentInChildren<BossController>();
         GameObject player =
@@ -56,54 +54,57 @@ public class BossControllerTest
         Object.Destroy(utils);
         UnityEngine.Assertions.Assert.IsNull(enemyPatrol);
         Object.Destroy(enemyPatrol);
-        
     }
     
     [UnityTest]
     public IEnumerator AttackTest()
     {
+        GameObject platform = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlatform.prefab");
+        platform = GameObject.Instantiate(platform);
         GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
-        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Boss.prefab");
-        enemyPatrol = GameObject.Instantiate(enemyPatrol);
-        BossController bossController = enemyPatrol.GetComponentInChildren<BossController>();
+      
         GameObject player =
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
         player = GameObject.Instantiate(player);
         player.GetComponent<Attack>().SetDamage(0);
-        
-        Vector3 enemyPosition = bossController.transform.position;
-        Vector3 nearByPosition = new Vector3(enemyPosition.x + 0.5f, enemyPosition.y, enemyPosition.z);
-        player.transform.position = nearByPosition;
-        int currentHealth = bossController.GetComponent<Health>().GetHealth();
-        
-        
-        yield return new WaitForSeconds(0.01f);
-       // string attackAnimationName = bossController.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
+        platform.transform.position = player.transform.position - new Vector3(0.0f, 1.0f, 0.0f);
+
+        yield return new WaitForSeconds(1.0f);
+        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestBoss.prefab");
+        enemyPatrol = GameObject.Instantiate(enemyPatrol, player.transform.position - new Vector3(1.25f, -0.5f, 0.0f), Quaternion.identity);
+        BossController bossController = enemyPatrol.GetComponentInChildren<BossController>();
+        bossController.transform.position = player.transform.position;
+
+        yield return new WaitForSeconds(0.5f);
         Assert.IsTrue(bossController.attacked);
         Object.Destroy(enemyPatrol);
         Object.Destroy(player);
         Object.Destroy(utils);
+        Object.Destroy(platform);
     }
     
     [UnityTest]
     public IEnumerator CloseAttackWithDamageTest()
     {
+        GameObject platform = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlatform.prefab");
+        platform = GameObject.Instantiate(platform);
         GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
-        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Boss.prefab");
-        enemyPatrol = GameObject.Instantiate(enemyPatrol);
-        BossController bossController = enemyPatrol.GetComponentInChildren<BossController>();
-        
         GameObject player =
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
         player = GameObject.Instantiate(player);
         player.GetComponent<Attack>().SetDamage(0);
-        int startHealth = player.GetComponent<Health>().GetHealth();
         
-        Vector3 enemyPosition = bossController.transform.position;
-        Vector3 nearByPosition = new Vector3(enemyPosition.x, enemyPosition.y, enemyPosition.z);
-        player.transform.position = nearByPosition;
+        int startHealth = player.GetComponent<Health>().GetHealth();
+        platform.transform.position = player.transform.position - new Vector3(0.0f, 1.0f, 0.0f);
+        yield return new WaitForSeconds(1.0f);
+
+        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestBoss.prefab");
+        enemyPatrol = GameObject.Instantiate(enemyPatrol, player.transform.position - new Vector3(1.2f, -0.5f, 0.0f), Quaternion.identity);
+        BossController bossController = enemyPatrol.GetComponentInChildren<BossController>();
+
         bossController.isDebugOrTest = true;
         bossController.attacks = Enumerable
             .Repeat(0, 10)
@@ -111,11 +112,11 @@ public class BossControllerTest
             .ToArray();
 
 
-        yield return new WaitForSeconds(0.001f);
-        // string attackAnimationName = bossController.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        yield return new WaitForSeconds(3.0f);
         Assert.Less(player.GetComponent<Health>().GetHealth(), startHealth);
         Object.Destroy(enemyPatrol);
         Object.Destroy(player);
         Object.Destroy(utils);
+        Object.Destroy(platform);
     }
 }

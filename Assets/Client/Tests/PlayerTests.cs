@@ -90,7 +90,6 @@ public class PlayerTests
         Object.Destroy(player);
     }
 
-
     [UnityTest]
     public IEnumerator PlayerMoveForward()
     {

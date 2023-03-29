@@ -269,7 +269,10 @@ public class PlayerController : MonoBehaviour
 	{
 		return playerHealth;
 	}
-
+	public bool GetDoubleJump()
+	{
+		return canDoubleJump;
+	}
 	public void SetDoubleJump(bool doubleJump)
 	{
 		canDoubleJump = doubleJump;

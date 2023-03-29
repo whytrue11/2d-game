@@ -53,30 +53,20 @@ public class EnemyPatrolControllerTest
     {
         GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
-        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/EnemyPatrol.prefab");
-        enemyPatrol = GameObject.Instantiate(enemyPatrol);
-        EnemyPatrolController enemyPatrolController = enemyPatrol.transform.GetChild(0).GetComponent<EnemyPatrolController>();
-        
-        int oldNextId = enemyPatrolController.getNextId();
         GameObject player =
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
         player = GameObject.Instantiate(player);
         player.GetComponent<Attack>().SetDamage(0);
-       
         GameObject platform = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Platform1.prefab");
         platform = GameObject.Instantiate(platform);
-        platform.transform.position = player.transform.position;
-        platform.transform.position -= new Vector3(0.0f, 1.0f, 0.0f);
+        platform.transform.position = player.transform.position - new Vector3(0.0f, 1.0f, 0.0f); 
         yield return new WaitForSeconds(1.0f);
-        
-        Vector3 enemyPosition = enemyPatrolController.transform.position;
-        
-        enemyPatrol.transform.position = player.transform.position;
-        Vector3 nearByPosition = new Vector3(enemyPosition.x + 0.25f, enemyPosition.y, enemyPosition.z);
-        enemyPatrol.transform.position = nearByPosition;
-        yield return new WaitForSeconds(5.1f);
-        
-        
+ 
+        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/EnemyPatrol.prefab");
+        enemyPatrol = GameObject.Instantiate(enemyPatrol, player.transform.position - new Vector3(0.5f, 0.0f, 0.0f), Quaternion.identity);
+        EnemyPatrolController enemyPatrolController = enemyPatrol.transform.GetChild(0).GetComponent<EnemyPatrolController>();
+        yield return new WaitForSeconds(5.0f);
+
         Assert.IsTrue(enemyPatrolController.attacked);
         Object.Destroy(player);
         Object.Destroy(enemyPatrol);
@@ -128,7 +118,7 @@ public class EnemyPatrolControllerTest
         Vector3 nearByPosition = new Vector3(enemyPosition.x, enemyPosition.y + 0.25f, enemyPosition.z);
         player.transform.position = nearByPosition;
         
-        yield return new WaitForSeconds(0.001f);
+        yield return new WaitForSeconds(0.1f);
         
         Object.Destroy(player);
         Object.Destroy(utils);

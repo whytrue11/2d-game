@@ -65,12 +65,9 @@ public class PowerUp : MonoBehaviour
         {
 
             if (!GetComponentInParent<Shop>().getEnemiesNearby())
-            {
-                descriptionText.text = buff.GetBuffDescription();
-                descriptionText.fontSize = 2.8f;
+            { 
                 pickUpButton.SetActive(true);
                 attackButton.SetActive(false);
-                pickUpButton.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
             }
             else
             {
@@ -98,24 +95,36 @@ public class PowerUp : MonoBehaviour
         Shop shop = GetComponentInParent(typeof(Shop)) as Shop;
         if(shop != null && !shop.getEnemiesNearby())
         {
-            if (shop.GetCoins() >= buff.GetBuffEffect().GetPrice())
+            if (buff.GetBuffEffect().CanGetEffect(player))
             {
-                shop.RemoveCoins(buff.GetBuffEffect().GetPrice());
-                buff.GetBuffEffect().Apply(player);
-                playerController.NotNextToTheBuff();
-                if (buff.GetBuffEffect().GetDescription().Equals("Двойной прыжок"))
+                if (shop.GetCoins() >= buff.GetBuffEffect().GetPrice())
                 {
-                    DataHolder.playerDoubleJumpBuff = true;
+                    shop.RemoveCoins(buff.GetBuffEffect().GetPrice());
+                    buff.GetBuffEffect().Apply(player);
+                    playerController.NotNextToTheBuff();
+                    if (buff.GetBuffEffect().GetDescription().Equals("Двойной прыжок"))
+                    {
+                        DataHolder.playerDoubleJumpBuff = true;
+                    }
+                    Destroy(gameObject);
                 }
-                Destroy(gameObject);
+                else
+                {
+                    Color priceColor = new Color(1.0f, 0.6662316f, 0.0f);
+                    priceText.color = Color.red;
+                    yield return new WaitForSeconds(2);
+                    priceText.color = priceColor;
+                }
             }
-            else 
+            else
             {
+                descriptionText.text = "Вы достигли лимита";
+                descriptionText.fontSize = 2.8f;
                 Color priceColor = new Color(1.0f, 0.6662316f, 0.0f);
                 priceText.color = Color.red;
                 yield return new WaitForSeconds(2);
                 priceText.color = priceColor;
-            }
+            } 
         } 
     }
 }

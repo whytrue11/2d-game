@@ -10,9 +10,23 @@ public class HealBuff : PowerUpEffect
     {
         Health playerHealth = player.GetComponentInParent(typeof(Health)) as Health;
         PlayerController playerController = player.GetComponentInParent(typeof(PlayerController)) as PlayerController;
-        playerController.HealAnimation();
-        playerHealth.SetHealth(playerHealth.GetHealth() + health);
+        if (playerHealth != null && playerController != null)
+        {
+            playerController.HealAnimation();
+            playerHealth.HealUnit(health);
+        }
     }
+    public override bool CanGetEffect(GameObject player)
+    {
+        Health playerHealth = player.GetComponentInParent(typeof(Health)) as Health;
+        PlayerController playerController = player.GetComponentInParent(typeof(PlayerController)) as PlayerController;
+        if (playerHealth != null && playerController != null)
+        {
+            return (playerHealth.GetHealth() < playerHealth.GetMaxHealth());
+        }
+        return false;
+    }
+
     public override int GetPrice()
     {
         return price;

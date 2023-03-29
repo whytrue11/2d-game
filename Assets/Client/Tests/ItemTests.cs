@@ -113,25 +113,23 @@ public class ItemTests
         DataHolder.localCoins = new Coin(1000);
         platform.transform.position = player.transform.position - new Vector3(0.0f, 1.0f, 0.0f);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1.0f);
         shop.transform.position = player.transform.position;
         shop.transform.position += new Vector3(0.667f, 0.0f, 0.0f);
-
         yield return new WaitForSeconds(0.1f);
         player.GetComponent<PlayerController>().PickUpItem();
+        yield return new WaitForSeconds(0.1f);
         shop.transform.position -= new Vector3(0.667f, 0.0f, 0.0f);
-
         yield return new WaitForSeconds(0.1f);
         player.GetComponent<PlayerController>().PickUpItem();
+        yield return new WaitForSeconds(0.1f);
         shop.transform.position -= new Vector3(1.431f, 0.0f, 0.0f);
-
         yield return new WaitForSeconds(0.1f);
         player.GetComponent<PlayerController>().PickUpItem();
+        yield return new WaitForSeconds(0.1f);
         shop.transform.position -= new Vector3(1.09f, 0.0f, 0.0f);
-
         yield return new WaitForSeconds(0.1f);
         player.GetComponent<PlayerController>().PickUpItem();
-
         yield return new WaitForSeconds(0.1f);
 
         Assert.AreEqual(shop.transform.childCount, 0);
@@ -187,5 +185,7 @@ public class ItemTests
         Object.Destroy(shop);
         Object.Destroy(enemy);
     }
+
+
 
 }
