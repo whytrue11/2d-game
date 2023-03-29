@@ -11,7 +11,7 @@ public class PlayerTests
     [SetUp]
     public void Setup()
     {
-        GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
+        utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
     }
 

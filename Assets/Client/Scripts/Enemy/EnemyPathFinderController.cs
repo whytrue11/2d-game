@@ -1,3 +1,4 @@
+using System;
 using Pathfinding;
 using UnityEngine;
 using System.Collections;
@@ -33,6 +34,7 @@ public class EnemyPathFinderController : EnemyController
     private bool grounded;
     private Seeker seeker;
     private Rigidbody2D rb;
+    public Boolean pathFound = false;
         
     private const float groundedRadius = .2f; 
    
@@ -78,9 +80,11 @@ public class EnemyPathFinderController : EnemyController
             return;
         }
 
+        pathFound = true;
         // Reached end of path
         if (currentWaypoint >= path.vectorPath.Count)
         {
+            pathFound = false;
             return;
         }
 

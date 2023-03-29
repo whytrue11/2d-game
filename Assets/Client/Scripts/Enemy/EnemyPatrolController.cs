@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class EnemyPatrolController : EnemyController
@@ -16,7 +17,8 @@ public class EnemyPatrolController : EnemyController
 
     //The value of that applies to ID for changing
     private int idChangeValue = 1;
-    
+    public bool attacked = false;
+    public bool walked = false;
     private void FixedUpdate()
     {
         MoveToNextPoint();
@@ -35,6 +37,7 @@ public class EnemyPatrolController : EnemyController
             nextID += idChangeValue;
             Debug.Log("Meet with Player");
             animator.SetTrigger("Attack");
+            attacked = true;
             var controller = collision.gameObject.GetComponentInParent<PlayerController>();
             controller.PlayerDmg(damage);
         }
@@ -64,6 +67,7 @@ public class EnemyPatrolController : EnemyController
                 idChangeValue = 1;
 
             nextID += idChangeValue;
+            walked = true;
         }
     }
 
@@ -77,4 +81,25 @@ public class EnemyPatrolController : EnemyController
             Destroy(gameObject);
         }
     }
+
+    public int getNextId()
+    {
+        return nextID;
+    }
+
+    public int getIdChangeValue()
+    {
+        return idChangeValue;
+    }
+
+    public List<Transform> getPoints()
+    {
+        return points;
+    }
+
+    public void setPoints(List<Transform> newPoints)
+    {
+        points = newPoints;
+    }
 }
+

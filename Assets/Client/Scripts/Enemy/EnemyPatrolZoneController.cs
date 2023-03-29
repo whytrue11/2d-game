@@ -7,19 +7,20 @@ public class EnemyPatrolZoneController : EnemyController
     [SerializeField] private float rayCastLength;
     [SerializeField] private float attackDistance;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float timer;
+    [SerializeField] public float timer { get; set; }
     [SerializeField] private Transform leftLimit;
     [SerializeField] private Transform rightLimit;
     [SerializeField] private Health enemyHealth;
     [SerializeField] private int damage;
     [SerializeField] private Animator animator;
     private bool attackMode;
-    private bool cooling;
+    public bool cooling { get; set; }
     private float distance;
     private RaycastHit2D hit;
-    private bool inRange;
+    public bool inRange { get; set; }
     private float intTimer;
     private Transform target;
+    public bool atacked = false;
    
     private void Awake()
     {
@@ -83,6 +84,7 @@ public class EnemyPatrolZoneController : EnemyController
     private void Attack()
     {
         timer = intTimer;
+        atacked = true;
         attackMode = true;
         Debug.Log(cooling);
         Debug.Log("Meet with Player");
@@ -123,7 +125,7 @@ public class EnemyPatrolZoneController : EnemyController
         cooling = true;
     }
 
-    private bool InsideOfLimits()
+    public bool InsideOfLimits()
     {
         return transform.position.x > leftLimit.position.x && transform.position.x < rightLimit.position.x;
     }
@@ -151,6 +153,7 @@ public class EnemyPatrolZoneController : EnemyController
         else
         {
             Debug.Log("Twist");
+            atacked = true;
             rotation.y = 0;
         }
         

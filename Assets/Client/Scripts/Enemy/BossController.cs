@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using Pathfinding;
@@ -42,9 +43,11 @@ public class BossController : EnemyController
     public GameObject bulletPrefab;
     public float bulletForce = 2f;
     private bool isFacingRight = true;
-    private int[] attacks;
+    public int[] attacks;
     private int currentAttack;
     private int countOfAttacks = 10;
+    public Boolean attacked = false;
+    [SerializeField]public Boolean isDebugOrTest = false;
 
     public void Start()
     {
@@ -52,15 +55,19 @@ public class BossController : EnemyController
         int Max = 2;
         Random randNum = new Random();
         currentAttack = 0;
-        attacks = Enumerable
-            .Repeat(0, countOfAttacks)
-            .Select(i => randNum.Next(Min, Max))
-            .ToArray();
+        if (!isDebugOrTest)
+        {
+            attacks = Enumerable
+                .Repeat(0, countOfAttacks)
+                .Select(i => randNum.Next(Min, Max))
+                .ToArray();
+        }
         seeker = GetComponent<Seeker>();
+        
         rb = GetComponent<Rigidbody2D>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         InvokeRepeating("UpdatePath", 0f, pathUpdateSeconds);
-        attacks.ToList().ForEach(i => Debug.Log(i)); 
+        
     }
 
     public override void TakeDamage(int damage)
@@ -173,10 +180,8 @@ public class BossController : EnemyController
 
     private void OnPathComplete(Path p)
     {
-        Debug.Log("AAA");
         if (!p.error)
         {
-            Debug.Log("BBBB");
             path = p;
             currentWaypoint = 0;
         }
@@ -209,12 +214,14 @@ public class BossController : EnemyController
             Debug.Log("CLOSE ATTACK");
             var controller = trig.gameObject.GetComponentInParent<PlayerController>();
             animator.SetTrigger("AttackMelee");
+            attacked = true;
             controller.PlayerDmg(damage); 
         }
         else
         {
             //distant attack
             Debug.Log("DISTANT ATTACK");
+            attacked = true;
             animator.SetTrigger("AttackRange");
             Shoot();    
         }
