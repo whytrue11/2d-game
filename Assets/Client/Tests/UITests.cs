@@ -279,5 +279,25 @@ public class UITests
             
             Object.Destroy(utils);
             Object.Destroy(canvas);
-        } 
+        }
+
+        [UnityTest]
+        public IEnumerator TitreTest()
+        {
+            GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestUtils.prefab");
+            utils = GameObject.Instantiate(utils);
+         
+            yield return new WaitForSeconds(0.1f);
+
+            Assert.IsFalse(utils.transform.GetChild(0).transform.GetChild(5).gameObject.activeSelf);
+            utils.GetComponent<GameManager>().End(false);
+
+            yield return new WaitForSeconds(1.5f);
+
+            Assert.IsTrue(utils.transform.GetChild(0).transform.GetChild(5).gameObject.activeSelf);
+
+            yield return new WaitForSeconds(1.0f);
+
+            Object.Destroy(utils);
+        }
 }

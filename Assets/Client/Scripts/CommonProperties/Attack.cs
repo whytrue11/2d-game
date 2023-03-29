@@ -44,12 +44,10 @@ public class Attack : MonoBehaviour
                 //EnemyPatrolController enemyController = coll[i].gameObject.GetComponent<EnemyPatrolController>();
                 Debug.Log("Player dmg Enemy on " + damage);
                 Debug.Log("Attack location" + attackLocation.position);
-                Debug.Log("Attack range" + attackRange);
-                        
-               
+                Debug.Log("Attack range" + attackRange);   
             }
         }
-        if(enemyController!= null)
+        if(enemyController != null)
         {
             enemyController.TakeDamage(damage);
         }
@@ -62,10 +60,15 @@ public class Attack : MonoBehaviour
         return this.canAttack;
     }
 
+      
     public void SetAttackCooldown(float cooldown)
     {
         this.attackCooldown = cooldown;
         DataHolder.playerWeaponAttackCooldown = cooldown;
+    }
+    public float GetAttackCooldown()
+    {
+        return attackCooldown;
     }
     public void SetWeaponAnimation(int animationLayerPos)
     {
@@ -78,7 +81,10 @@ public class Attack : MonoBehaviour
 
         DataHolder.playerWeaponAnimation = animationLayerPos;
     }
-
+    public int GetWeaponAnimation()
+    {
+        return DataHolder.playerWeaponAnimation;
+    }
     public int GetDamage()
     {
         return damage;

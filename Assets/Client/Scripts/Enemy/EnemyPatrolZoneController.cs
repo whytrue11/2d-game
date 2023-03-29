@@ -120,11 +120,6 @@ public class EnemyPatrolZoneController : EnemyController
             Debug.DrawRay(rayCast.position, transform.right * rayCastLength, Color.green);
     }
 
-    public void TriggerCooling()
-    {
-        cooling = true;
-    }
-
     public bool InsideOfLimits()
     {
         return transform.position.x > leftLimit.position.x && transform.position.x < rightLimit.position.x;

@@ -10,17 +10,30 @@ public class HealthBuff : PowerUpEffect
     public override void Apply(GameObject player)
     {
         Health playerHealth = player.GetComponentInParent(typeof(Health)) as Health;
-        playerHealth.SetMaxHealth((int)(playerHealth.GetMaxHealth() * multiplier));
-        playerHealth.SetHealth((int)(playerHealth.GetHealth() * multiplier));
-        PlayerController playerController = player.GetComponentInParent(typeof(PlayerController)) as PlayerController;
-        playerController.HealAnimation();
+        if(CanGetEffect(player))
+        {
+            if(playerHealth.GetMaxHealth() * multiplier <= 250)
+            {
+                playerHealth.SetMaxHealth((int)(playerHealth.GetMaxHealth() * multiplier));
+                playerHealth.SetHealth((int)(playerHealth.GetHealth() * multiplier));
+            }
+            else
+            {
+                float percent = (float)playerHealth.GetHealth() / playerHealth.GetMaxHealth();
+                playerHealth.SetMaxHealth(250);
+                playerHealth.SetHealth((int)(250 * percent));
+            }
+            PlayerController playerController = player.GetComponentInParent(typeof(PlayerController)) as PlayerController;
+            playerController.HealAnimation();
+        } 
     }
+
     public override bool CanGetEffect(GameObject player)
     {
         Health playerHealth = player.GetComponentInParent(typeof(Health)) as Health;
         if (playerHealth != null)
         {
-            return (playerHealth.GetMaxHealth() * multiplier <= 250);
+            return (playerHealth.GetMaxHealth() < 250);
         }
         return false;
     }
@@ -34,4 +47,8 @@ public class HealthBuff : PowerUpEffect
         return description;
     }
 
+    public void SetMultiplier(float value)
+    {
+        multiplier = value;
+    }
 }

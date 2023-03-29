@@ -44,8 +44,7 @@ public class EnemyPatrolControllerTest
         yield return new WaitForSeconds(0.001f);
         Object.Destroy(utils);
         UnityEngine.Assertions.Assert.IsNull(enemyPatrolController);
-        Object.Destroy(enemyPatrol);
-        
+        Object.Destroy(enemyPatrol); 
     }
     
     [UnityTest]
@@ -83,7 +82,6 @@ public class EnemyPatrolControllerTest
         enemyPatrol = GameObject.Instantiate(enemyPatrol);
         EnemyPatrolController enemyPatrolController = enemyPatrol.transform.GetChild(0).GetComponent<EnemyPatrolController>();
         
-        int startIdChangeValue = 1;
         Vector3 enemyPosition = enemyPatrolController.transform.position;
         Vector3 goalPoint1 = new Vector3(enemyPosition.x - 0.05f, enemyPosition.y, enemyPosition.z);
         Vector3 goalPoint2 = new Vector3(enemyPosition.x + 0.05f, enemyPosition.y, enemyPosition.z);
@@ -124,7 +122,5 @@ public class EnemyPatrolControllerTest
         Object.Destroy(utils);
         UnityEngine.Assertions.Assert.IsNull(enemyPatrolController);
         Object.Destroy(enemyPatrol);
-        
     }
-
 }

@@ -10,7 +10,7 @@ public class HealBuff : PowerUpEffect
     {
         Health playerHealth = player.GetComponentInParent(typeof(Health)) as Health;
         PlayerController playerController = player.GetComponentInParent(typeof(PlayerController)) as PlayerController;
-        if (playerHealth != null && playerController != null)
+        if (CanGetEffect(player))
         {
             playerController.HealAnimation();
             playerHealth.HealUnit(health);
@@ -35,6 +35,11 @@ public class HealBuff : PowerUpEffect
     public override string GetDescription()
     {
         return description;
+    }
+
+    public void SetHealth(int value)
+    {
+        health = value;
     }
 
 }

@@ -6,6 +6,7 @@ public class SpeedBuff : PowerUpEffect
     [SerializeField] private float multiplier;
     [SerializeField] private int price;
     [SerializeField] private string description;
+
     public override void Apply(GameObject player)
     {
         PlayerMovement playerMovement = player.GetComponentInParent(typeof(PlayerMovement)) as PlayerMovement;
@@ -19,7 +20,6 @@ public class SpeedBuff : PowerUpEffect
             {
                 playerMovement.SetRunSpeed(30.0f);
             }
-            
         }
     }
 
@@ -41,8 +41,8 @@ public class SpeedBuff : PowerUpEffect
     {
         return description;
     }
-    public float GetMultiplier()
+    public void SetMultiplier(float value)
     {
-        return multiplier;
+        multiplier = value;
     }
 }

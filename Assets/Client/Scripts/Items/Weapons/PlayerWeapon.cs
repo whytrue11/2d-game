@@ -12,7 +12,7 @@ public class PlayerWeapon : PowerUpEffect
     public override void Apply(GameObject player)
     {
         Attack playerAttack = player.GetComponentInParent(typeof(Attack)) as Attack;
-        if (playerAttack != null)
+        if (CanGetEffect(player))
         {
             playerAttack.SetDamage(playerAttack.GetDamage() + weaponDamage);
             playerAttack.SetWeaponAnimation(weaponAnimationLayerPos);
@@ -37,4 +37,20 @@ public class PlayerWeapon : PowerUpEffect
     {
         return description;
     }
+
+    public void SetWeaponDamage(int value)
+    {
+        weaponDamage = value;
+    }
+
+    public void SetPlayerWeaponAttackCooldown(float value)
+    {
+        playerWeaponAttackCooldown = value;
+    }
+
+    public void SetWeaponAnimationLayerPos(int value)
+    {
+        weaponAnimationLayerPos = value;
+    }
+
 }

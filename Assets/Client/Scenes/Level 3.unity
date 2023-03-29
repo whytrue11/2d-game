@@ -459,6 +459,7 @@ MonoBehaviour:
   damage: 10
   attackCooldown: 0
   animator: {fileID: 0}
+  pathFound: 0
 --- !u!114 &60342142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2499,7 +2500,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1294279, y: -2.09999, z: -10}
+  m_LocalPosition: {x: 1.5704923, y: -2.09999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3115,11 +3116,11 @@ MonoBehaviour:
   - {fileID: 4873430449770199301, guid: 4060c3f6434575e47b409b490aec6a8a, type: 3}
   endRoom: {fileID: 4873430449770199301, guid: 530664e2db808e645b703cb840d6cc66, type: 3}
   roomsSpawnLimit: 5
-  titre: {fileID: 0}
-  titreTitleText: {fileID: 0}
-  titreCreatorsNamesText: {fileID: 0}
-  continueButtonText: {fileID: 0}
-  scoreText: {fileID: 0}
+  titre: {fileID: 452331232}
+  titreTitleText: {fileID: 1155798741}
+  titreCreatorsNamesText: {fileID: 315602553}
+  continueButtonText: {fileID: 873477450}
+  scoreText: {fileID: 1477258653}
   roomsSpawned: 0
   pause: 0
 --- !u!1 &700331059
@@ -7483,6 +7484,8 @@ MonoBehaviour:
   - {fileID: 1634256640}
   nextID: 0
   speed: 1
+  attacked: 0
+  walked: 0
 --- !u!61 &1708293804
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8167,12 +8170,12 @@ MonoBehaviour:
   rayCastLength: 100
   attackDistance: 2
   moveSpeed: 1
-  timer: 1
   leftLimit: {fileID: 2043914158}
   rightLimit: {fileID: 1761261570}
   enemyHealth: {fileID: 1818587084}
   damage: 20
   animator: {fileID: 0}
+  atacked: 0
 --- !u!212 &1818587086
 SpriteRenderer:
   m_ObjectHideFlags: 0
