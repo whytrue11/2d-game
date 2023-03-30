@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Coin
+  - Enemy
+  - Utils
+  - DeathMenu
+  - EnemyPatrol
+  - EnemyPathFinder
+  - EnemyPatrolZone
+  - Boss
+  - AttackButton
+  - PickUpButton
+  - PlayerHead
   layers:
   - Default
   - TransparentFX
@@ -13,10 +24,10 @@ TagManager:
   - UI
   - Player
   - Ground
-  - 
-  - 
-  - 
-  - 
+  - Background
+  - CameraLimits
+  - EnemyPatrol
+  - Boss
   - 
   - 
   - 
@@ -40,4 +51,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2957672065
+    locked: 0
+  - name: Foreground
+    uniqueID: 3076872637
     locked: 0
