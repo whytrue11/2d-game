@@ -1801,6 +1801,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9097013564583293665}
     m_Modifications:
+    - target: {fileID: 1461988986164979115, guid: cc385c9eaea22ab4ca99c6e2acadc873, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 1917162074507161411, guid: cc385c9eaea22ab4ca99c6e2acadc873, type: 3}
       propertyPath: sceneId
       value: 2
@@ -1819,7 +1823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2504495497467904513, guid: cc385c9eaea22ab4ca99c6e2acadc873, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2504495497467904513, guid: cc385c9eaea22ab4ca99c6e2acadc873, type: 3}
       propertyPath: m_LocalRotation.w
