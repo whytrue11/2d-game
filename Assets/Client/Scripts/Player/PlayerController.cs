@@ -277,8 +277,14 @@ public class PlayerController : MonoBehaviour
 	{
 		canDoubleJump = doubleJump;
 	}
-
-
+	public float GetDashCooldown()
+    {
+		return dashCooldown;
+    }
+	public void SetDashCooldown(float value)
+	{
+		dashCooldown = value;
+	}
 
 	private void Flip()
 	{

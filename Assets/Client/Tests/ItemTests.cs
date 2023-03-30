@@ -146,7 +146,30 @@ public class ItemTests
 
         Assert.AreEqual(player.GetComponent<Attack>().GetDamage(), 25);
         Assert.AreEqual(player.GetComponent<Attack>().GetWeaponAnimation(), 2);
-        Assert.AreEqual(player.GetComponent<Attack>().GetAttackCooldown(), 1.0f);
+        Assert.AreEqual(player.GetComponent<Attack>().GetAttackCooldown(), 1.0f, 0.0001f);
+
+        Object.Destroy(player);
+    }
+
+    [Test]
+    public void PlayerGetDashBuff()
+    {
+        GameObject player = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
+        player = GameObject.Instantiate(player);
+        DashBuff dashBuff = new DashBuff();
+        dashBuff.SetCooldownReduction(0.5f);
+
+        player.GetComponent<PlayerController>().SetDashCooldown(1.5f);
+        dashBuff.Apply(player);
+        Assert.AreEqual(player.GetComponent<PlayerController>().GetDashCooldown(), 1.0f, 0.0001f);
+
+        player.GetComponent<PlayerController>().SetDashCooldown(1.2f);
+        dashBuff.Apply(player);
+        Assert.AreEqual(player.GetComponent<PlayerController>().GetDashCooldown(), 0.7f, 0.0001f);
+
+        player.GetComponent<PlayerController>().SetDashCooldown(0.6f);
+        dashBuff.Apply(player);
+        Assert.AreEqual(player.GetComponent<PlayerController>().GetDashCooldown(), 0.5f, 0.0001f);
 
         Object.Destroy(player);
     }

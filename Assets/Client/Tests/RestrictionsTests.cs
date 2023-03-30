@@ -143,6 +143,37 @@ public class RestrictionsTests
     }
 
     [Test]
+    public void PlayerNotReachMinDashCooldown()
+    {
+        GameObject player = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
+        player = GameObject.Instantiate(player);
+        DashBuff dashBuff = new DashBuff();
+        dashBuff.SetCooldownReduction(0.5f);
+
+        player.GetComponent<PlayerController>().SetDashCooldown(1.5f);
+        Assert.IsTrue(dashBuff.CanGetEffect(player));
+
+        player.GetComponent<PlayerController>().SetDashCooldown(0.6f);
+        Assert.IsTrue(dashBuff.CanGetEffect(player));
+
+        Object.Destroy(player);
+    }
+
+    [Test]
+    public void PlayerReachMinDashCooldown()
+    {
+        GameObject player = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/TestPlayer.prefab");
+        player = GameObject.Instantiate(player);
+        DashBuff dashBuff = new DashBuff();
+        dashBuff.SetCooldownReduction(0.5f);
+
+        player.GetComponent<PlayerController>().SetDashCooldown(0.5f);
+        Assert.IsFalse(dashBuff.CanGetEffect(player));
+
+        Object.Destroy(player);
+    }
+
+    [Test]
     public void WrongParametersForItems()
     {
         GameObject player = new GameObject();
@@ -152,12 +183,14 @@ public class RestrictionsTests
         HealthBuff healthBuff = new HealthBuff();
         JumpBuff jumpBuff = new JumpBuff();
         PlayerWeapon weapon = new PlayerWeapon();
+        DashBuff dashBuff = new DashBuff();
 
         Assert.IsFalse(speedBuff.CanGetEffect(player));
         Assert.IsFalse(healBuff.CanGetEffect(player));
         Assert.IsFalse(healthBuff.CanGetEffect(player));
         Assert.IsFalse(jumpBuff.CanGetEffect(player));
         Assert.IsFalse(weapon.CanGetEffect(player));
+        Assert.IsFalse(dashBuff.CanGetEffect(player));
 
         Object.Destroy(player);
     }
