@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 			OnCrouchEvent = new BoolEvent();
 	}
 	
-	private void Start()
+	public void Start()
 	{
 		InitPlayerParams();
 	}
