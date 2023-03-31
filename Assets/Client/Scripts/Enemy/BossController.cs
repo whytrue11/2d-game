@@ -244,4 +244,20 @@ public class BossController : EnemyController
         }
     }
 
+    public void SetCloseAttack()
+    {
+        attacks = Enumerable
+            .Repeat(0, 10)
+            .Select(i => 0)
+            .ToArray();
+    }
+
+    public void SetDistanceAttack()
+    {
+        attacks = Enumerable
+            .Repeat(0, 10)
+            .Select(i => 1)
+            .ToArray();
+    }
+
 }

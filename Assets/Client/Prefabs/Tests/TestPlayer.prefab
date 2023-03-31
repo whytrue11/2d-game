@@ -1247,7 +1247,7 @@ MonoBehaviour:
   jumpForce: 6
   dashForce: 12
   dashCooldown: 1.5
-  dashingTime: 0.2
+  dashingTime: 10
   crouchSpeed: 0.36
   movementSmoothing: 0.05
   airControl: 1

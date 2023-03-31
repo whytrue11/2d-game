@@ -21,6 +21,7 @@ public class EnemyPatrolZoneController : EnemyController
     private float intTimer;
     private Transform target;
     public bool atacked = false;
+    public bool attackInsideLimits = false;
    
     private void Awake()
     {
@@ -31,8 +32,17 @@ public class EnemyPatrolZoneController : EnemyController
     {
         if (!attackMode) Move();
 
+        if (!InsideOfLimits() && inRange)
+        {
+            attackInsideLimits = true;
+        }
+
+
         if (!InsideOfLimits() && !inRange)
+        {
+            attackInsideLimits = false;
             SelectTarget();
+        }
 
         if (inRange)
         {
