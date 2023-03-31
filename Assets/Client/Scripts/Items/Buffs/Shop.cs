@@ -41,7 +41,7 @@ public class Shop : MonoBehaviour
         }
     }
 
-    public bool getEnemiesNearby()
+    public bool GetEnemiesNearby()
     {
         return enemiesNearby;
     }

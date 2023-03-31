@@ -31,7 +31,7 @@ public class ChangeWeapon : MonoBehaviour
                 this.playerController = (PlayerController)collision.GetComponentInParent(typeof(PlayerController));
                 this.playerController.NextToTheWeapon(this);
                 player = collision.gameObject;
-                if (!GetComponentInParent<Shop>().getEnemiesNearby())
+                if (!GetComponentInParent<Shop>().GetEnemiesNearby())
                 {
                     descriptionText.text = weapon.GetWeaponDescription();
                     descriptionText.fontSize = 2.8f;
@@ -56,7 +56,7 @@ public class ChangeWeapon : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
         
-            if (!GetComponentInParent<Shop>().getEnemiesNearby())
+            if (!GetComponentInParent<Shop>().GetEnemiesNearby())
             {
                 descriptionText.text = weapon.GetWeaponDescription();
                 descriptionText.fontSize = 2.8f;
@@ -90,7 +90,7 @@ public class ChangeWeapon : MonoBehaviour
     public IEnumerator Apply()
     {
         Shop shop = GetComponentInParent(typeof(Shop)) as Shop;
-        if(shop != null && !shop.getEnemiesNearby())
+        if(shop != null && !shop.GetEnemiesNearby())
         {
             if (shop.GetCoins() >= weapon.GetWeapon().GetPrice())
             {

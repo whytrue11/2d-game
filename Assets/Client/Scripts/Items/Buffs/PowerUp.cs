@@ -13,6 +13,10 @@ public class PowerUp : MonoBehaviour
     private GameObject player;
     private Buff buff;
 
+    public Buff GetBuff()
+    {
+        return buff;
+    }
     public TMP_Text GetPriceText()
     {
         return priceText;
@@ -41,7 +45,7 @@ public class PowerUp : MonoBehaviour
                 this.playerController = (PlayerController)collision.GetComponentInParent(typeof(PlayerController));
                 this.playerController.NextToTheBuff(this);
                 player = collision.gameObject;
-                if(!GetComponentInParent<Shop>().getEnemiesNearby())
+                if(!GetComponentInParent<Shop>().GetEnemiesNearby())
                 {
                     descriptionText.text = buff.GetBuffDescription();
                     descriptionText.fontSize = 2.8f;
@@ -64,7 +68,7 @@ public class PowerUp : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
 
-            if (!GetComponentInParent<Shop>().getEnemiesNearby())
+            if (!GetComponentInParent<Shop>().GetEnemiesNearby())
             { 
                 pickUpButton.SetActive(true);
                 attackButton.SetActive(false);
@@ -93,7 +97,7 @@ public class PowerUp : MonoBehaviour
     public IEnumerator Apply()
     {
         Shop shop = GetComponentInParent(typeof(Shop)) as Shop;
-        if(shop != null && !shop.getEnemiesNearby())
+        if(shop != null && !shop.GetEnemiesNearby())
         {
             if (buff.GetBuffEffect().CanGetEffect(player))
             {
