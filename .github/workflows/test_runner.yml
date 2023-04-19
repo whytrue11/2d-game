@@ -9,10 +9,12 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      
-      - name: ShowPaths
-        run: |
-          ls ./build
+      - uses: actions/cache@v2
+        with:
+          path: /Library
+          key: Library-
+          restore-keys: |
+            Library-
           
       - name: RunApp
         run: |
