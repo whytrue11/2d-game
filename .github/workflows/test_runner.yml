@@ -7,13 +7,14 @@ jobs:
     name: Test E2E
     runs-on: [self-hosted, Windows]
     
-    steps:          
-      - name: RunApp
+    steps:
+      - uses: actions/checkout@v2
+      - name: RunTests
         run: |
           ./build/LightSouls.exe
           sleep 5
           D:\Programs\Unity\2021.3.10f1\Editor\Unity -projectPath .\ -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass EndToEnd -reportPath testReport.xml -logFile logFile.log -batchmode -quit
-          sleep 40
+          sleep 300
       
       - uses: actions/upload-artifact@v2
         if: always()
