@@ -1,92 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4268235321204337742
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7034888009622197077}
-  - component: {fileID: 3889615431189487821}
-  m_Layer: 0
-  m_Name: A*
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7034888009622197077
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4268235321204337742}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.04, y: -1.02, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5706859893824518415}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3889615431189487821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4268235321204337742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  data:
-    dataString: UEsDBBQAAAgIAAAYIeyw0EtLegIAAD8FAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVMty2jAU/RVG68LINgHTXUsI6SIJU9rJxhtFvsYaZMkjyQGS4d8ryfIj1BvL59znuVf+REzoGqiRaqtY/iRzQN8nyJ3Rt8lAPsKZHKTYsw/obF5ZbkpnRLzNb2KYtHjk3LSswChGf4gDd8bYgo1ghVTVJj/AWmqjLVwQrsFSShrnLSz0OUFn+5qunMvFnuKlO33Y0wpPrvZIQRhQI1M8w/E8TpaLJE6DE56t2mcefAfAx2gE5aSqIXcNDaGizn8xa+2E7TWY4JmLRSXnTIdSkbnUXop9XYICp0XOiO3cl+eEKIEdSuO6GPu+FIUGE2RR5HLPlBWwDYp+ylbViuhjW9k74Y1LE8WpL6oN+vQfP408XShZPXZ5I+xymJLR429yoUSbkexj+P5r4Y04EX4kbxxeSxDPcqtkI3JLGtU410ZDfD989q2tS6DHAW9LvQGbelC8n/IsSedRukgWmylehqG5hq5eivOas+qtn4IF9lx67f2egLJz+mWr91ukQ1yLupL+avhDDuN1C8QDU9pYKrQsXK1vslHOFG28gK61xqylEuDh0EENgnBz2dkw5naeN9wo7Q3zQNzFCskD192XGxcPD/YY31A7eeonp0t5egJdvjSGMwFD0Y54tjqtpRDtuo016dz2jSoIHbkdGpZ/3TNUwDylSVxgHN2l6QKmd+kcChIndwucJCu6RH4RmbB9Er5rCw3y2KmJIbiwS9f9byZbRWq/+rkipy37qORIciYKuacKQLy0EfrCQdkk9o7mm5xZgfZgDBN+3ugzQ1zSI+RZHyjznW7ORpFsiJKhmr1L45AMrf0PJkMO7hd7p+Cdwckl74Jd0fUfUEsDBBQAAAgIAAAYIextM9ZibQAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrRSWqqJRbKxUZqBgaGphYVZqq6phUlqWqKRsamZgbGxZbK5UixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAAAYIeyw0EtLegIAAD8FAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAAAYIextM9ZibQAAAHgAAAAJACQAAAAAAAAAAAAAAMcCAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAAfwMAAAAA
-    upgradeData: 
-    file_cachedStartup: {fileID: 0}
-    data_cachedStartup: 
-    cacheStartup: 0
-  showNavGraphs: 1
-  showUnwalkableNodes: 1
-  debugMode: 0
-  debugFloor: 0
-  debugRoof: 1
-  manualDebugFloorRoof: 0
-  showSearchTree: 0
-  unwalkableNodeDebugSize: 0.3
-  logPathResults: 1
-  maxNearestNodeDistance: 100
-  scanOnStartup: 1
-  fullGetNearestSearch: 0
-  prioritizeGraphs: 0
-  prioritizeGraphsLimit: 1
-  colorSettings:
-    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0.9}
-    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
-    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
-    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
-    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
-    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
-    _AreaColors:
-    - {r: 0, g: 0, b: 0, a: 0}
-  tagNames: []
-  heuristic: 2
-  heuristicScale: 1
-  threadCount: 1
-  maxFrameTime: 1
-  batchGraphUpdates: 0
-  graphUpdateBatchingInterval: 0.2
-  euclideanEmbedding:
-    mode: 0
-    seed: 0
-    pivotPointRoot: {fileID: 0}
-    spreadOutCount: 1
-  showGraphs: 1
 --- !u!1 &5706859892570187407
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +69,6 @@ Transform:
   m_Children:
   - {fileID: 5706859892570187406}
   - {fileID: 2177263609889510862}
-  - {fileID: 7034888009622197077}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -291,6 +203,9 @@ MonoBehaviour:
   bulletPos: {fileID: 5706859892570187406}
   bulletPrefab: {fileID: 8490804546592296195, guid: c0c2935e835e24e97a90eba87d9927d2, type: 3}
   bulletForce: 2
+  attacks: 
+  attacked: 0
+  isDebugOrTest: 0
 --- !u!95 &1455141331021026397
 Animator:
   serializedVersion: 4

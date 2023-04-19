@@ -281,7 +281,7 @@ public class IntegrationTestsWithEnemies
 
         yield return new WaitForSeconds(0.1f);
         GameObject enemyPathFinder =
-            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/EnemyPathFinder.prefab");
+            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/EnemyPathFinder.prefab");
         enemyPathFinder = GameObject.Instantiate(enemyPathFinder,
             player.transform.position + new Vector3(1.7f, 0.1f, 0.0f), Quaternion.identity);
 

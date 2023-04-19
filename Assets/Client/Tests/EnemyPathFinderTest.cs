@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -13,7 +11,7 @@ public class EnemyPathFinderTest
     {
         GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
-        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/EnemyPathFinder.prefab");
+        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/EnemyPathFinder.prefab");
         enemyPatrol = GameObject.Instantiate(enemyPatrol);
         EnemyPathFinderController enemyPathFinder = enemyPatrol.GetComponentInChildren<EnemyPathFinderController>();
         GameObject player =
@@ -36,7 +34,7 @@ public class EnemyPathFinderTest
     {
         GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
-        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/EnemyPathFinder.prefab");
+        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/EnemyPathFinder.prefab");
         enemyPatrol = GameObject.Instantiate(enemyPatrol);
         EnemyPathFinderController enemyPathFinder = enemyPatrol.GetComponentInChildren<EnemyPathFinderController>();
         
@@ -57,7 +55,7 @@ public class EnemyPathFinderTest
     {
         GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
-        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/EnemyPathFinder.prefab");
+        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/EnemyPathFinder.prefab");
         enemyPatrol = GameObject.Instantiate(enemyPatrol);
         EnemyPathFinderController enemyPathFinder = enemyPatrol.GetComponentInChildren<EnemyPathFinderController>();
         
@@ -79,13 +77,13 @@ public class EnemyPathFinderTest
         Object.Destroy(enemyPatrol);
         Object.Destroy(utils);
     }
-    
+
     /*[UnityTest]
     public IEnumerator FollowPlayerTest()
     {
         GameObject utils = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Utils.prefab");
         utils = GameObject.Instantiate(utils);
-        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/EnemyPathFinder.prefab");
+        GameObject enemyPatrol = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Client/Prefabs/Tests/EnemyPathFinder.prefab");
         enemyPatrol = GameObject.Instantiate(enemyPatrol);
         EnemyPathFinderController enemyPathFinder = enemyPatrol.GetComponentInChildren<EnemyPathFinderController>();
         
