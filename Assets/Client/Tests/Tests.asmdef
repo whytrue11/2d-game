@@ -6,7 +6,8 @@
         "UnityEditor.TestRunner",
         "GameAssembly",
         "Unity.TextMeshPro",
-        "AltDriver"
+        "AltDriver",
+        "Unity.PerformanceTesting"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
