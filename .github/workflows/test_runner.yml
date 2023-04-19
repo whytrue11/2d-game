@@ -7,15 +7,7 @@ jobs:
     name: Test E2E
     runs-on: [self-hosted, Windows]
     
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: /Library
-          key: Library-
-          restore-keys: |
-            Library-
-          
+    steps:          
       - name: RunApp
         run: |
           ./build/LightSouls.exe
