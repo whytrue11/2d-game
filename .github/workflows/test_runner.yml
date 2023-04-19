@@ -20,7 +20,7 @@ jobs:
         run: |
           ./build/LightSouls.exe
           sleep 5
-          D:\Programs\Unity\2021.3.10f1\Editor\Unity -projectPath '' -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass EndToEnd -reportPath testReport.xml -logFile logFile.log -batchmode -quit
+          D:\Programs\Unity\2021.3.10f1\Editor\Unity -projectPath .\ -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass EndToEnd -reportPath testReport.xml -logFile logFile.log -batchmode -quit
       
       - uses: actions/upload-artifact@v2
         if: always()
