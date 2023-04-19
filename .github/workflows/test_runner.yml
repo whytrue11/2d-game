@@ -1,6 +1,9 @@
 name: Test project
 
-on: push
+on: 
+  push:
+    branches:
+      - end-to-end
 
 jobs:
   testE2E:
@@ -20,4 +23,6 @@ jobs:
         if: always()
         with:
           name: Report 
-          path: testReport.xml
+          path: |
+            *.log
+            testReport.xml
