@@ -12,9 +12,9 @@ jobs:
       
       - name: RunAppAndTests
         run: |
-          ls ./2d-game/2d-game/build
-          ./2d-game/2d-game/build/LightSouls.exe
-          D:\Programs\Unity\2021.3.10f1\Editor\Unity -projectPath /2d-game/2d-game -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass EndToEnd -reportPath testReport.xml -logFile logFile.log -batchmode -quit
+          ls ./build
+          ./build/LightSouls.exe
+          D:\Programs\Unity\2021.3.10f1\Editor\Unity -projectPath '' -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass EndToEnd -reportPath testReport.xml -logFile logFile.log -batchmode -quit
       
       - uses: actions/upload-artifact@v2
         if: always()
