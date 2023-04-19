@@ -17,4 +17,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Client/Scenes/Level 3.unity
     guid: de046ccf7e5972f44947565326c6082d
+  - enabled: 1
+    path: Assets/Client/Scenes/HitEnemyTestScene.unity
+    guid: 24b52132892dd4a08b81c8c942081521
+  - enabled: 1
+    path: Assets/Client/Scenes/KillerJumpCatTest.unity
+    guid: 6a0d3ef4ff20b447293ec29a4206a69b
+  - enabled: 1
+    path: Assets/Client/Scenes/MoveWithJumpTest.unity
+    guid: 83c76b67a098347159f501a7de6047be
+  - enabled: 1
+    path: Assets/Client/Scenes/DashWithJumpTest.unity
+    guid: 94c11a97f812f4305a08ff4c9ed72d59
+  - enabled: 1
+    path: Assets/Client/Scenes/PortalBetweenScenes.unity
+    guid: b55b6062ed4df4c8a8a9c49295170583
+  - enabled: 1
+    path: Assets/Client/Scenes/TestSceneWithShop.unity
+    guid: 54726e735cd5cd34cad467d4dbecee25
   m_configObjects: {}
