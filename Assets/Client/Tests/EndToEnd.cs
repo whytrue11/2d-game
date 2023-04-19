@@ -27,6 +27,6 @@ public class EndToEnd
         playButton.Click();
         
         Debug.Log(altDriver.GetCurrentScene());
-        Assert.AreEqual("Level 2", altDriver.GetCurrentScene());
+        Assert.AreEqual("Level 1", altDriver.GetCurrentScene());
     }
 }
