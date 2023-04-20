@@ -2,6 +2,7 @@ using Altom.AltDriver;
 using NUnit.Framework;
 using UnityEngine;
 using System.Threading;
+using System;
 
 public class EndToEnd
 {
@@ -487,5 +488,41 @@ public class EndToEnd
         Assert.Greater(enemyHealthValue, 0);
         Assert.Throws<NotFoundException>(() => altDriver.FindObject(By.PATH, "//TestEnemyPatrol/Enemy"));
         Thread.Sleep(400);
+    }
+	
+	[Test]
+    public void RestartAfterDeathTest() 
+    {
+        altDriver.LoadScene("Level 2");
+        
+        var player = altDriver.FindObject(By.NAME, "Player");
+
+        player.CallComponentMethod<Int32>("PlayerController", "PlayerDmg", "GameAssembly", new object[] { 100 });
+        
+        Thread.Sleep(1000);
+        
+        AltObject playButton = altDriver.FindObject(By.NAME, "RetryButton");
+
+        playButton.Click();
+
+        Assert.AreEqual("Level 1", altDriver.GetCurrentScene());
+    }
+    
+    [Test]
+    public void MenuAfterDeathTest() 
+    {
+        altDriver.LoadScene("Level 2");
+        
+        var player = altDriver.FindObject(By.NAME, "Player");
+
+        player.CallComponentMethod<Int32>("PlayerController", "PlayerDmg", "GameAssembly", new object[] { 100 });
+        
+        Thread.Sleep(1000);
+        
+        AltObject playButton = altDriver.FindObject(By.NAME, "MainMenuButton");
+
+        playButton.Click();
+
+        Assert.AreEqual("Menu", altDriver.GetCurrentScene());
     }
 }
