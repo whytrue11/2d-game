@@ -24,10 +24,7 @@ public class EndToEnd
     {
         altDriver.LoadScene("Menu");
         AltObject playButton = altDriver.FindObject(By.NAME,"PlayButton");
-
         playButton.Click();
-        
-        Debug.Log(altDriver.GetCurrentScene());
         Assert.AreEqual("Level 1", altDriver.GetCurrentScene());
     }
 
@@ -49,14 +46,15 @@ public class EndToEnd
         Assert.AreEqual(player.GetWorldPosition().z, position.z, 0.001f);
     }
 
-
     [Test]
     public void BuyInShop()
     {
         altDriver.LoadScene("TestSceneWithShop");
         Thread.Sleep(100);
         var player = altDriver.FindObject(By.NAME, "Player");
-        bool doubleJump = player.GetComponentProperty<bool>("PlayerController", "canDoubleJump", "GameAssembly");
+        int playerStartMaxHealth = player.GetComponentProperty<int>("Health", "maxHealth", "GameAssembly");
+        float playerStartRunSpeed = player.GetComponentProperty<float>("PlayerMovement", "runSpeed", "GameAssembly");
+
         AltObject actionButton = altDriver.FindObject(By.NAME, "PickUp");
         actionButton.Click();
         Thread.Sleep(500);
@@ -92,9 +90,23 @@ public class EndToEnd
         actionButton.Click();
 
         player = altDriver.FindObject(By.NAME, "Player");
-        doubleJump = player.GetComponentProperty<bool>("PlayerController", "canDoubleJump", "GameAssembly");
+        int playerMaxHealth = player.GetComponentProperty<int>("Health", "maxHealth", "GameAssembly");
+        float playerRunSpeed = player.GetComponentProperty<float>("PlayerMovement", "runSpeed", "GameAssembly");
+
+        Assert.AreEqual(playerMaxHealth, 166, 1);
+        Assert.AreEqual(playerRunSpeed, playerStartRunSpeed * 1.2, 0.0001f);
 
     }
+
+    [Test]
+    public void CantBuyInShop()
+    {
+        altDriver.LoadScene("TestSceneWithShopEnemy");
+        Thread.Sleep(100);
+
+        Assert.Throws<NotFoundException>(() => altDriver.FindObject(By.PATH, "//Canvas/GameInterface/Controls/PickUp"));
+    }
+
 
     [Test]
     public void MoveCharacterWithJoystick()
@@ -225,7 +237,7 @@ public class EndToEnd
         var initialPositionOfJoystick = joystick.GetScreenPosition();
         int fingerId = altDriver.BeginTouch(initialPositionOfJoystick);
 
-        AltVector2 newPosition = new AltVector2(initialPositionOfJoystick.x + 10, initialPositionOfJoystick.y);
+        AltVector2 newPosition = new AltVector2(initialPositionOfJoystick.x + 20, initialPositionOfJoystick.y);
         altDriver.MoveTouch(fingerId, newPosition);
         AltObject jumpButton = altDriver.FindObject(By.NAME, "Jump");
         jumpButton.Click();
@@ -243,7 +255,7 @@ public class EndToEnd
     }
 
     [Test]
-    public void KillerJumpCatTest() //done
+    public void KillerJumpCatTest()
     {
         altDriver.LoadScene("KillerJumpCatTest");
 
@@ -257,14 +269,14 @@ public class EndToEnd
         var initialPositionOfJoystick = joystick.GetScreenPosition();
         int fingerId = altDriver.BeginTouch(initialPositionOfJoystick);
 
-        AltVector2 newPosition = new AltVector2(initialPositionOfJoystick.x - 10, initialPositionOfJoystick.y);
+        AltVector2 newPosition = new AltVector2(initialPositionOfJoystick.x - 20, initialPositionOfJoystick.y);
         altDriver.MoveTouch(fingerId, newPosition);
         AltObject jumpButton = altDriver.FindObject(By.NAME, "Jump");
         jumpButton.Click();
         altDriver.EndTouch(fingerId);
         Thread.Sleep(900);
 
-        newPosition = new AltVector2(initialPositionOfJoystick.x + 10, initialPositionOfJoystick.y);
+        newPosition = new AltVector2(initialPositionOfJoystick.x + 20, initialPositionOfJoystick.y);
         fingerId = altDriver.BeginTouch(initialPositionOfJoystick);
         altDriver.MoveTouch(fingerId, newPosition);
         altDriver.EndTouch(fingerId);
@@ -298,8 +310,7 @@ public class EndToEnd
         Assert.Greater(player.GetWorldPosition().y, position.y);
     }
     
-    
-    
+ 
     [Test]
     public void UsePortalBetweenScenesTest() 
     {
@@ -311,7 +322,7 @@ public class EndToEnd
         var initialPositionOfJoystick = joystick.GetScreenPosition();
         int fingerId = altDriver.BeginTouch(initialPositionOfJoystick);
 
-        AltVector2 newPosition = new AltVector2(initialPositionOfJoystick.x + 10, initialPositionOfJoystick.y);
+        AltVector2 newPosition = new AltVector2(initialPositionOfJoystick.x + 20, initialPositionOfJoystick.y);
         altDriver.MoveTouch(fingerId, newPosition);
         Thread.Sleep(500);
         altDriver.EndTouch(fingerId);
@@ -324,5 +335,105 @@ public class EndToEnd
         altDriver.MoveTouch(fingerId, newPosition);
         altDriver.EndTouch(fingerId);
 
+    }
+
+    [Test]
+    public void DodgeBossBulletWithJoystick()
+    {
+        altDriver.LoadScene("TestSceneWithBoss");
+        var player = altDriver.FindObject(By.NAME, "Player");
+        int playerStartHealth = player.GetComponentProperty<int>("Health", "health", "GameAssembly");
+        AltObject joystick = altDriver.FindObject(By.NAME, "Fixed Joystick");
+        var initialPositionOfJoystick = joystick.GetScreenPosition();
+        int fingerId = altDriver.BeginTouch(initialPositionOfJoystick);
+        AltVector2 newPosition = new AltVector2(initialPositionOfJoystick.x, initialPositionOfJoystick.y - 50);
+        altDriver.MoveTouch(fingerId, newPosition);
+        Thread.Sleep(3000);
+        altDriver.EndTouch(fingerId);
+        player = altDriver.FindObject(By.NAME, "Player");
+        int playerHealth = player.GetComponentProperty<int>("Health", "health", "GameAssembly");
+        Assert.AreEqual(playerHealth, playerStartHealth);
+        fingerId = altDriver.BeginTouch(initialPositionOfJoystick);
+        altDriver.EndTouch(fingerId);
+    }
+
+    [Test]
+    public void NewRecordAfterKillingBoss()
+    {
+        altDriver.LoadScene("TestSceneForNewRecord");
+        int initialScoreSize = DataHolder.scores.Count;
+        AltObject attackButton = altDriver.FindObject(By.NAME, "Attack");
+        attackButton.Click();
+        Thread.Sleep(2000);
+
+        AltObject continueButton = altDriver.FindObject(By.NAME, "ContinueButton");
+        continueButton.Click();
+        Thread.Sleep(1500);
+
+        AltObject mainMenuButton = altDriver.FindObject(By.NAME, "MainMenuButton");
+        mainMenuButton.Click();
+        Thread.Sleep(1500);
+
+        AltObject scoresButton = altDriver.FindObject(By.NAME, "ScoresButton");
+        scoresButton.Click();
+        Thread.Sleep(1500);
+
+        Assert.Greater(DataHolder.scores.Count, initialScoreSize);
+    }
+
+    [Test]
+    public void RestartGameAfterKillingBoss()
+    {
+        altDriver.LoadScene("TestSceneForNewRecord");
+        AltObject attackButton = altDriver.FindObject(By.NAME, "Attack");
+        attackButton.Click();
+        Thread.Sleep(2000);
+
+        AltObject continueButton = altDriver.FindObject(By.NAME, "ContinueButton");
+        continueButton.Click();
+        Thread.Sleep(1500);
+
+        AltObject retryButton = altDriver.FindObject(By.NAME, "RetryButton");
+        retryButton.Click();
+        Thread.Sleep(1500);
+
+        Assert.AreEqual("Level 1", altDriver.GetCurrentScene());
+    }
+
+    [Test]
+    public void DodgeDamageWithDash()
+    {
+        altDriver.LoadScene("TestSceneForDashDodge");
+        var player = altDriver.FindObject(By.NAME, "Player");
+        int playerStartHealth = player.GetComponentProperty<int>("Health", "health", "GameAssembly");
+        AltObject dashButton = altDriver.FindObject(By.NAME, "Dash");
+        dashButton.Click();
+        Thread.Sleep(200);
+        player = altDriver.FindObject(By.NAME, "Player");
+        int playerHealth = player.GetComponentProperty<int>("Health", "health", "GameAssembly");
+        Assert.AreEqual(playerHealth, playerStartHealth);
+    }
+
+    [Test]
+    public void DoubleJump()
+    {
+        altDriver.LoadScene("TestSceneForDoubleJumpTest");
+        Thread.Sleep(200);
+        AltObject actionButton = altDriver.FindObject(By.NAME, "PickUp");
+        actionButton.Click();
+        AltObject jumpButton = altDriver.FindObject(By.NAME, "Jump");
+        Thread.Sleep(200);
+        var player = altDriver.FindObject(By.NAME, "Player");
+        var startPosition = player.GetWorldPosition();
+        jumpButton.Click();
+        Thread.Sleep(200);
+        player = altDriver.FindObject(By.NAME, "Player");
+        var secondPosition = player.GetWorldPosition();
+        jumpButton.Click();
+        Thread.Sleep(200);
+        player = altDriver.FindObject(By.NAME, "Player");
+        var thirdPosition = player.GetWorldPosition();
+        Assert.Greater(secondPosition.y, startPosition.y);
+        Assert.Greater(thirdPosition.y, secondPosition.y);
     }
 }

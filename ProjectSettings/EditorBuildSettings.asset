@@ -35,4 +35,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Client/Scenes/TestSceneWithShop.unity
     guid: 54726e735cd5cd34cad467d4dbecee25
+  - enabled: 1
+    path: Assets/Client/Scenes/TestSceneForDashDodge.unity
+    guid: 9c997dad3b1726e48bf6a1e3b8f80fe4
+  - enabled: 1
+    path: Assets/Client/Scenes/TestSceneForDoubleJumpTest.unity
+    guid: 97a4f2c674a278a468d27ecc1c1682bf
+  - enabled: 1
+    path: Assets/Client/Scenes/TestSceneForNewRecord.unity
+    guid: 18428c80d8b83b24db36be6e0f7e9a87
+  - enabled: 1
+    path: Assets/Client/Scenes/TestSceneWithBoss.unity
+    guid: 421397dcb006c784ea1176bbb3771bb1
+  - enabled: 1
+    path: Assets/Client/Scenes/TestSceneWithShopEnemy.unity
+    guid: 7a07ea877a7271a49ae712da260a9456
   m_configObjects: {}
