@@ -25,7 +25,9 @@ public class EndToEnd
         altDriver.LoadScene("Menu");
         AltObject playButton = altDriver.FindObject(By.NAME,"PlayButton");
         playButton.Click();
+        
         Assert.AreEqual("Level 1", altDriver.GetCurrentScene());
+        Thread.Sleep(500);
     }
 
     [Test]
@@ -33,17 +35,18 @@ public class EndToEnd
     {
         altDriver.LoadScene("TestSceneWithShop");
         AltObject dashButton = altDriver.FindObject(By.NAME, "Dash");
-        Thread.Sleep(100);
+        Thread.Sleep(500);
         dashButton.Click();
         Thread.Sleep(500);
         var player = altDriver.FindObject(By.NAME, "Player");
         var position = player.GetWorldPosition();
         dashButton.Click();
-        Thread.Sleep(100);
+        Thread.Sleep(300);
         player = altDriver.FindObject(By.NAME, "Player");
         Assert.AreEqual(player.GetWorldPosition().x, position.x, 0.001f);
         Assert.AreEqual(player.GetWorldPosition().y, position.y, 0.001f);
         Assert.AreEqual(player.GetWorldPosition().z, position.z, 0.001f);
+        Thread.Sleep(500);
     }
 
     [Test]
@@ -141,61 +144,70 @@ public class EndToEnd
     [Test]
     public void SoundCheckTest()
     {
-        
         altDriver.LoadScene("Menu");
+        Thread.Sleep(500);
         AltObject optionsButton = altDriver.FindObject(By.NAME, "OptionsButton");
-
         optionsButton.Click();
+        Thread.Sleep(300);
 
         AltObject joystick = altDriver.FindObject(By.NAME, "Slider");
         var initialPosition = joystick.GetScreenPosition();
         int fingerId = altDriver.BeginTouch(initialPosition);
-        var startAudio = DataHolder.musicVolume;
-        Thread.Sleep(2000);
-        AltVector2 newPosition = new AltVector2(initialPosition.x - 100, initialPosition.y);
+        AltObject audio = altDriver.FindObject(By.NAME, "Audio");
+        float startAudio = audio.GetComponentProperty<float>("MusicVolume", "musicVolume", "GameAssembly");
+        Thread.Sleep(1000);
+        AltVector2 newPosition = new AltVector2(initialPosition.x - 500, initialPosition.y);
         altDriver.MoveTouch(fingerId, newPosition);
-        Thread.Sleep(2000);
+        Thread.Sleep(1000);
         altDriver.EndTouch(fingerId);
 
-        Assert.Less(DataHolder.musicVolume, startAudio);
+        Thread.Sleep(300);
+        audio = altDriver.FindObject(By.NAME, "Audio");
+        float endAudio = audio.GetComponentProperty<float>("MusicVolume", "musicVolume", "GameAssembly");
+        Assert.Less(endAudio, startAudio);
     }
 
     [Test]
     public void EditVolumeFromPauseTest()
     {
         altDriver.LoadScene("Menu");
+        Thread.Sleep(500);
         AltObject playButton = altDriver.FindObject(By.NAME, "PlayButton");
-
         playButton.Click();
+        Thread.Sleep(300);
 
         AltObject pauseButton = altDriver.FindObject(By.NAME, "PauseButton");
-
         pauseButton.Click();
-
+        Thread.Sleep(300);
         
         AltObject optionsButton = altDriver.FindObject(By.NAME, "OptionsButton");
-
         optionsButton.Click();
+        Thread.Sleep(300);
 
         AltObject joystick = altDriver.FindObject(By.NAME, "Slider");
         var initialPosition = joystick.GetScreenPosition();
         int fingerId = altDriver.BeginTouch(initialPosition);
-        var startAudio = DataHolder.musicVolume;
-        Thread.Sleep(2000);
+        
+        AltObject audio = altDriver.FindObject(By.NAME, "Audio");
+        float startAudio = audio.GetComponentProperty<float>("MusicVolume", "musicVolume", "GameAssembly");
+        
+        Thread.Sleep(1000);
         AltVector2 newPosition = new AltVector2(initialPosition.x - 500, initialPosition.y);
         altDriver.MoveTouch(fingerId, newPosition);
-        Thread.Sleep(2000);
+        Thread.Sleep(1000);
         altDriver.EndTouch(fingerId);
-        Thread.Sleep(2000);
-        Assert.Less(DataHolder.musicVolume, startAudio);
+        
+        audio = altDriver.FindObject(By.NAME, "Audio");
+        float endAudio = audio.GetComponentProperty<float>("MusicVolume", "musicVolume", "GameAssembly");
+        Assert.Less(endAudio, startAudio);
         
         AltObject backButton = altDriver.FindObject(By.NAME, "BackButton");
-
         backButton.Click();
+        Thread.Sleep(300);
         
         AltObject continueButton = altDriver.FindObject(By.NAME, "ContinueButton");
-
         continueButton.Click();
+        Thread.Sleep(300);
     }
 
     [Test]
@@ -315,9 +327,7 @@ public class EndToEnd
     public void UsePortalBetweenScenesTest() 
     {
         altDriver.LoadScene("PortalBetweenScenes");
-        
-        var player = altDriver.FindObject(By.NAME, "Player");
-        
+
         AltObject joystick = altDriver.FindObject(By.NAME, "Fixed Joystick");
         var initialPositionOfJoystick = joystick.GetScreenPosition();
         int fingerId = altDriver.BeginTouch(initialPositionOfJoystick);
@@ -328,13 +338,12 @@ public class EndToEnd
         altDriver.EndTouch(fingerId);
 
         Assert.AreEqual("Level 2", altDriver.GetCurrentScene());
-       
+        Thread.Sleep(500);
 
         newPosition = new AltVector2(initialPositionOfJoystick.x, initialPositionOfJoystick.y);
         fingerId = altDriver.BeginTouch(initialPositionOfJoystick);
         altDriver.MoveTouch(fingerId, newPosition);
         altDriver.EndTouch(fingerId);
-
     }
 
     [Test]
@@ -360,8 +369,10 @@ public class EndToEnd
     [Test]
     public void NewRecordAfterKillingBoss()
     {
+        Thread.Sleep(100);
         altDriver.LoadScene("TestSceneForNewRecord");
-        int initialScoreSize = DataHolder.scores.Count;
+        var utils = altDriver.FindObject(By.NAME, "Utils");
+        int scoresInitialCount = utils.GetComponentProperty<int>("GameManager", "scoresCount", "GameAssembly");
         AltObject attackButton = altDriver.FindObject(By.NAME, "Attack");
         attackButton.Click();
         Thread.Sleep(2000);
@@ -378,7 +389,9 @@ public class EndToEnd
         scoresButton.Click();
         Thread.Sleep(1500);
 
-        Assert.Greater(DataHolder.scores.Count, initialScoreSize);
+        utils = altDriver.FindObject(By.NAME, "Utils");
+        int scoresCount = utils.GetComponentProperty<int>("GameManager", "scoresCount", "GameAssembly");
+        Assert.Greater(scoresCount, scoresInitialCount);
     }
 
     [Test]
@@ -435,5 +448,44 @@ public class EndToEnd
         var thirdPosition = player.GetWorldPosition();
         Assert.Greater(secondPosition.y, startPosition.y);
         Assert.Greater(thirdPosition.y, secondPosition.y);
+    }
+    
+    [Test]
+    public void ExitInMenuFromPauseTest()
+    {
+        altDriver.LoadScene("Menu");
+        AltObject playButton = altDriver.FindObject(By.NAME, "PlayButton");
+        playButton.Click();
+        Thread.Sleep(300);
+
+        AltObject pauseButton = altDriver.FindObject(By.NAME, "PauseButton");
+        pauseButton.Click();
+        Thread.Sleep(500);
+
+        AltObject backButton = altDriver.FindObject(By.NAME, "MainMenuButton");
+        backButton.Click();
+        Thread.Sleep(300);
+        
+        Assert.AreEqual("Menu", altDriver.GetCurrentScene());
+    }
+    
+    [Test]
+    public void HitEnemyInJumpTest()
+    {
+        altDriver.LoadScene("HitInJumpTestScene");
+        Thread.Sleep(400);
+
+        var enemyHealth = altDriver.FindObject(By.PATH, "//TestEnemyPatrol/Enemy");
+        var enemyHealthValue = enemyHealth.GetComponentProperty<int>("Health", "health", "GameAssembly");
+
+        AltObject attackButton = altDriver.FindObject(By.NAME, "Attack");
+        AltObject jumpButton = altDriver.FindObject(By.NAME, "Jump");
+        jumpButton.Click();
+        Thread.Sleep(200);
+        attackButton.Click();
+
+        Assert.Greater(enemyHealthValue, 0);
+        Assert.Throws<NotFoundException>(() => altDriver.FindObject(By.PATH, "//TestEnemyPatrol/Enemy"));
+        Thread.Sleep(400);
     }
 }

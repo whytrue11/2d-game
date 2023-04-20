@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Client/Scenes/TestSceneWithShopEnemy.unity
     guid: 7a07ea877a7271a49ae712da260a9456
+  - enabled: 1
+    path: Assets/Client/Scenes/HitInJumpTestScene.unity
+    guid: 10df6850b7cb64e409848703427eb27e
   m_configObjects: {}

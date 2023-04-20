@@ -26,11 +26,14 @@ public class GameManager : MonoBehaviour
     public bool pause;
 
     private const double coinPercent = (double) 2 / 3;
+    
+    private int scoresCount;
 
     private void Start()
     {
         pause = false;
         DisplayCoins();
+        scoresCount = DataHolder.scores.Count;
     }
 
     public void Begin()
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
 
             if (titre != null)
             {
+                scoresCount = DataHolder.scores.Count;
                 scoreText.text = scoreText.text + " " + DataHolder.scores[DataHolder.scores.Count - 1].time.ToString(@"hh\:mm\:ss");
                 titre.SetActive(true);
                 StartCoroutine("FadeTitre");
