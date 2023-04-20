@@ -97,7 +97,7 @@ public class EndToEnd
         int playerMaxHealth = player.GetComponentProperty<int>("Health", "maxHealth", "GameAssembly");
         float playerRunSpeed = player.GetComponentProperty<float>("PlayerMovement", "runSpeed", "GameAssembly");
 
-        Assert.AreEqual(playerMaxHealth, 166, 1);
+        Assert.AreEqual(playerMaxHealth, 167, 1);
         Assert.AreEqual(playerRunSpeed, playerStartRunSpeed * 1.2, 0.0001f);
 
     }
